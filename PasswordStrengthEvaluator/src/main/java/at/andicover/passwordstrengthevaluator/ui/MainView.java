@@ -24,9 +24,7 @@ public class MainView extends VerticalLayout {
     public MainView() {
         this.binder = new Binder<>(PweData.class);
         this.binder.setBean(new PweData());
-        binder.addValueChangeListener(e -> {
-            PasswordStrengthEvaluatorUtil.evaluate(binder.getBean().getPassword());
-        });
+        binder.addValueChangeListener(e -> binder.setBean(PasswordStrengthEvaluatorUtil.evaluate(binder.getBean())));
 
         final PasswordField passwordField = new PasswordField(TEXT_PASSWORD, TEXT_PASSWORD.toLowerCase());
         passwordField.setId("password");
