@@ -8,6 +8,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
+import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.PWA;
 
@@ -42,6 +43,7 @@ public class MainView extends VerticalLayout {
 
         final PasswordField passwordField = new PasswordField(TEXT_PASSWORD, TEXT_PASSWORD.toLowerCase());
         passwordField.setId("password");
+        passwordField.setValueChangeMode(ValueChangeMode.EAGER);
         this.binder.forField(passwordField)
                 .asRequired("Password must be set")
                 .bind(PweData::getPassword, PweData::setPassword);
