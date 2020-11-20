@@ -101,16 +101,16 @@ public final class PasswordStrengthEvaluatorUtil {
         };
 
         if (pweData.getNumbers() == 0) {
-            score *= 0.5;
+            score *= 0.8;
         }
         if (pweData.getLowercaseLetters() == 0) {
-            score *= 0.5;
+            score *= 0.8;
         }
         if (pweData.getUppercaseLetters() == 0) {
-            score *= 0.5;
+            score *= 0.8;
         }
         if (pweData.getSymbols() == 0) {
-            score *= 0.5;
+            score *= 0.8;
         }
         if (pweData.getEntropy() <= LOW_ENTROPY) {
             score *= 0.4;

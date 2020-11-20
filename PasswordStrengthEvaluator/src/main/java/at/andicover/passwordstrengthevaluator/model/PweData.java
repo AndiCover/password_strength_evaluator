@@ -5,7 +5,7 @@ import java.util.Objects;
 public class PweData {
 
     private String password;
-    private PasswordLength passwordLength;
+    private PasswordLength passwordLength = PasswordLength.SHORT;
     private double entropy;
     private long uppercaseLetters;
     private long lowercaseLetters;

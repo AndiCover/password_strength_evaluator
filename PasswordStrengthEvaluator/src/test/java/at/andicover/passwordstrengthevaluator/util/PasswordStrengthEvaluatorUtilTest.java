@@ -123,7 +123,7 @@ public class PasswordStrengthEvaluatorUtilTest {
         assertThat(PasswordStrengthEvaluatorUtil.evaluate(pweData).getScore(), equalTo(0));
 
         pweData.setPassword(BAD_PASSWORD);
-        assertThat(PasswordStrengthEvaluatorUtil.evaluate(pweData).getScore(), equalTo(4));
+        assertThat(PasswordStrengthEvaluatorUtil.evaluate(pweData).getScore(), equalTo(9));
 
         pweData.setPassword(MEDIUM_PASSWORD);
         assertThat(PasswordStrengthEvaluatorUtil.evaluate(pweData).getScore(), equalTo(48));
