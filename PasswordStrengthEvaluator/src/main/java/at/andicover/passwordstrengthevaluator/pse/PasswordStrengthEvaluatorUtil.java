@@ -1,16 +1,13 @@
 package at.andicover.passwordstrengthevaluator.pse;
 
+import at.andicover.passwordstrengthevaluator.login.PasswordService;
 import at.andicover.passwordstrengthevaluator.model.PasswordLength;
 import at.andicover.passwordstrengthevaluator.model.PseData;
 import org.springframework.lang.NonNull;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * Utility class for evaluating a password provided as {@link PseData}.
@@ -97,12 +94,7 @@ public final class PasswordStrengthEvaluatorUtil {
     }
 
     static boolean isOnWeakPasswordList(@NonNull final String password) {
-        try (Stream<String> stream = Files.lines(Paths.get("E:\\Programming\\git\\password_strength_evaluator\\WeakPasswords\\weak_passwords.txt"))) {  //TODO, maybe use DB?
-            return stream.anyMatch(x -> x.equals(password));
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-        return false;
+        return PasswordService.isOnWeakPasswordList(password);
     }
 
     private static int evaluateScore(@NonNull final PseData pseData) {

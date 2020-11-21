@@ -83,4 +83,6 @@ public abstract class BaseUiTest {
      */
     @Before
     public abstract void navigateToPage();
+
+    protected abstract String getPageUrl();
 }

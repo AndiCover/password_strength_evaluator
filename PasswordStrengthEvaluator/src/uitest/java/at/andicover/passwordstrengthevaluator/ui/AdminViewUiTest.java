@@ -15,7 +15,13 @@ public class AdminViewUiTest extends BaseUiTest {
 
     @Override
     public void navigateToPage() {
-        driver.get(getBaseUrl() + AdminView.PATH);
+        driver.get(getPageUrl());
+        wait.until(ExpectedConditions.urlToBe(getPageUrl()));
+    }
+
+    @Override
+    protected String getPageUrl() {
+        return getBaseUrl() + AdminView.PATH;
     }
 
     @Test

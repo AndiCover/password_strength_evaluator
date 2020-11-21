@@ -43,6 +43,7 @@ public class MainView extends VerticalLayout {
     protected static final String UI_IDENTIFIER_NUMBERS = MainView.class.getSimpleName() + ".numbers";
     protected static final String UI_IDENTIFIER_SYMBOLS = MainView.class.getSimpleName() + ".symbols";
     protected static final String UI_IDENTIFIER_WEAK_PASSWORD = MainView.class.getSimpleName() + ".weakPassword";
+    protected static final String UI_IDENTIFIER_LOGIN = MainView.class.getSimpleName() + ".login";
 
     private final Binder<PseData> binder;
 
@@ -114,6 +115,7 @@ public class MainView extends VerticalLayout {
         formLayout.setWidth("250px");
 
         final Button loginButton = new Button("Login", e -> UI.getCurrent().navigate(LoginView.PATH));
+        loginButton.setId(UI_IDENTIFIER_LOGIN);
 
         add(headLabel, loginButton, formLayout);
         setSizeFull();

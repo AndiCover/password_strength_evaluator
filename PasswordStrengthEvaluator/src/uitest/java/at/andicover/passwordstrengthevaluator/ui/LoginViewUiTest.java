@@ -15,7 +15,13 @@ public class LoginViewUiTest extends BaseUiTest {
 
     @Override
     public void navigateToPage() {
-        driver.get(getBaseUrl() + LoginView.PATH);
+        driver.get(getPageUrl());
+        wait.until(ExpectedConditions.urlToBe(getPageUrl()));
+    }
+
+    @Override
+    protected String getPageUrl() {
+        return getBaseUrl() + LoginView.PATH;
     }
 
     @Test

@@ -4,6 +4,7 @@ import at.andicover.passwordstrengthevaluator.common.BaseUiTest;
 import org.apache.commons.lang3.NotImplementedException;
 import org.junit.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -12,7 +13,13 @@ public class MainViewUiTest extends BaseUiTest {
 
     @Override
     public void navigateToPage() {
-        driver.get(getBaseUrl() + MainView.PATH);
+        driver.get(getPageUrl());
+        wait.until(ExpectedConditions.urlToBe(getPageUrl()));
+    }
+
+    @Override
+    protected String getPageUrl() {
+        return getBaseUrl() + MainView.PATH;
     }
 
     @Test
@@ -54,7 +61,8 @@ public class MainViewUiTest extends BaseUiTest {
 
     @Test
     public void testClickLogin() {
-        // TODO
-        throw new NotImplementedException("Test not implemented");
+        driver.findElement(By.id(MainView.UI_IDENTIFIER_LOGIN)).click();
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id(MainView.UI_IDENTIFIER_LOGIN)));
+        assertThat(driver.getCurrentUrl(), equalTo(getBaseUrl() + LoginView.PATH));
     }
 }

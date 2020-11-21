@@ -1,12 +1,20 @@
 package at.andicover.passwordstrengthevaluator.pse;
 
+import at.andicover.passwordstrengthevaluator.login.PasswordService;
 import at.andicover.passwordstrengthevaluator.model.PasswordLength;
 import at.andicover.passwordstrengthevaluator.model.PseData;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
+import org.powermock.api.mockito.PowerMockito;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.junit.MatcherAssert.assertThat;
+import static org.mockito.Mockito.when;
 
+@RunWith(PowerMockRunner.class)
+@PrepareForTest({PasswordService.class})
 public class PasswordStrengthEvaluatorUtilTest {
 
     private static final int MAX_PASSWORD_LENGTH = 50;
@@ -110,6 +118,9 @@ public class PasswordStrengthEvaluatorUtilTest {
 
     @Test
     public void testIsOnWeakPasswordList() {
+        PowerMockito.mockStatic(PasswordService.class);
+        when(PasswordService.isOnWeakPasswordList(WEAK_PASSWORD)).thenReturn(true);
+
         assertThat(PasswordStrengthEvaluatorUtil.isOnWeakPasswordList(WEAK_PASSWORD), equalTo(true));
         assertThat(PasswordStrengthEvaluatorUtil.isOnWeakPasswordList(BAD_PASSWORD), equalTo(false));
         assertThat(PasswordStrengthEvaluatorUtil.isOnWeakPasswordList(MEDIUM_PASSWORD), equalTo(false));
@@ -118,6 +129,9 @@ public class PasswordStrengthEvaluatorUtilTest {
 
     @Test
     public void testEvaluatePassword() {
+        PowerMockito.mockStatic(PasswordService.class);
+        when(PasswordService.isOnWeakPasswordList(WEAK_PASSWORD)).thenReturn(true);
+
         PseData pseData = new PseData();
         pseData.setPassword(WEAK_PASSWORD);
         assertThat(PasswordStrengthEvaluatorUtil.evaluate(pseData).getScore(), equalTo(0));
