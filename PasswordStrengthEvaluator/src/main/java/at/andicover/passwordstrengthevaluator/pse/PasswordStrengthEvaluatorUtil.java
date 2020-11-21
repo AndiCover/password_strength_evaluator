@@ -1,7 +1,7 @@
-package at.andicover.passwordstrengthevaluator.util;
+package at.andicover.passwordstrengthevaluator.pse;
 
 import at.andicover.passwordstrengthevaluator.model.PasswordLength;
-import at.andicover.passwordstrengthevaluator.model.PweData;
+import at.andicover.passwordstrengthevaluator.model.PseData;
 import org.springframework.lang.NonNull;
 
 import java.io.IOException;
@@ -21,17 +21,17 @@ public final class PasswordStrengthEvaluatorUtil {
         super();
     }
 
-    public static PweData evaluate(@NonNull final PweData pweData) {
-        pweData.setPasswordLength(evaluatePasswordLength(pweData.getPassword()));
-        pweData.setEntropy(calculateEntropy(pweData.getPassword()));
-        pweData.setLowercaseLetters(countLowercaseLetters(pweData.getPassword()));
-        pweData.setUppercaseLetters(countUppercaseLetters(pweData.getPassword()));
-        pweData.setNumbers(countNumbers(pweData.getPassword()));
-        pweData.setSymbols(countSymbols(pweData.getPassword()));
-        pweData.setOnWeakPasswordList(isOnWeakPasswordList(pweData.getPassword()));
+    public static PseData evaluate(@NonNull final PseData pseData) {
+        pseData.setPasswordLength(evaluatePasswordLength(pseData.getPassword()));
+        pseData.setEntropy(calculateEntropy(pseData.getPassword()));
+        pseData.setLowercaseLetters(countLowercaseLetters(pseData.getPassword()));
+        pseData.setUppercaseLetters(countUppercaseLetters(pseData.getPassword()));
+        pseData.setNumbers(countNumbers(pseData.getPassword()));
+        pseData.setSymbols(countSymbols(pseData.getPassword()));
+        pseData.setOnWeakPasswordList(isOnWeakPasswordList(pseData.getPassword()));
 
-        pweData.setScore(evaluateScore(pweData));
-        return pweData;
+        pseData.setScore(evaluateScore(pseData));
+        return pseData;
     }
 
     static PasswordLength evaluatePasswordLength(@NonNull final String password) {
@@ -89,13 +89,13 @@ public final class PasswordStrengthEvaluatorUtil {
         return false;
     }
 
-    private static int evaluateScore(@NonNull final PweData pweData) {
+    private static int evaluateScore(@NonNull final PseData pseData) {
         int score = 0;
-        if (pweData.isOnWeakPasswordList()) {
+        if (pseData.isOnWeakPasswordList()) {
             return score;
         }
 
-        switch (pweData.getPasswordLength()) {
+        switch (pseData.getPasswordLength()) {
             case LONG:
                 score = 100;
                 break;
@@ -108,21 +108,21 @@ public final class PasswordStrengthEvaluatorUtil {
                 break;
         }
 
-        if (pweData.getNumbers() == 0) {
+        if (pseData.getNumbers() == 0) {
             score *= 0.8;
         }
-        if (pweData.getLowercaseLetters() == 0) {
+        if (pseData.getLowercaseLetters() == 0) {
             score *= 0.8;
         }
-        if (pweData.getUppercaseLetters() == 0) {
+        if (pseData.getUppercaseLetters() == 0) {
             score *= 0.8;
         }
-        if (pweData.getSymbols() == 0) {
+        if (pseData.getSymbols() == 0) {
             score *= 0.8;
         }
-        if (pweData.getEntropy() <= LOW_ENTROPY) {
+        if (pseData.getEntropy() <= LOW_ENTROPY) {
             score *= 0.4;
-        } else if (pweData.getEntropy() <= HIGH_ENTROPY) {
+        } else if (pseData.getEntropy() <= HIGH_ENTROPY) {
             score *= 0.8;
         }
         return score;

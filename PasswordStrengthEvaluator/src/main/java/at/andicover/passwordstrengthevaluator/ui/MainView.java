@@ -1,7 +1,9 @@
 package at.andicover.passwordstrengthevaluator.ui;
 
-import at.andicover.passwordstrengthevaluator.model.PweData;
-import at.andicover.passwordstrengthevaluator.util.PasswordStrengthEvaluatorUtil;
+import at.andicover.passwordstrengthevaluator.model.PseData;
+import at.andicover.passwordstrengthevaluator.pse.PasswordStrengthEvaluatorUtil;
+import com.vaadin.flow.component.UI;
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -32,11 +34,11 @@ public class MainView extends VerticalLayout {
     private static final String TEXT_SYMBOLS = "Symbols";
     private static final String TEXT_WEAK_LIST = "Is on weak password list";
 
-    private final Binder<PweData> binder;
+    private final Binder<PseData> binder;
 
     public MainView() {
-        this.binder = new Binder<>(PweData.class);
-        this.binder.setBean(new PweData());
+        this.binder = new Binder<>(PseData.class);
+        this.binder.setBean(new PseData());
         binder.addValueChangeListener(e -> binder.setBean(PasswordStrengthEvaluatorUtil.evaluate(binder.getBean())));
 
         final Label headLabel = new Label(TITLE);
@@ -46,7 +48,7 @@ public class MainView extends VerticalLayout {
         passwordField.setValueChangeMode(ValueChangeMode.EAGER);
         this.binder.forField(passwordField)
                 .asRequired("Password must be set")
-                .bind(PweData::getPassword, PweData::setPassword);
+                .bind(PseData::getPassword, PseData::setPassword);
 
         final TextField scoreLabel = new TextField(TEXT_SCORE);
         scoreLabel.setReadOnly(true);
@@ -100,9 +102,12 @@ public class MainView extends VerticalLayout {
                 uppercaseLettersLabel, lowercaseLettersLabel, numbersLabel, symbolsLabel, weakPasswordLabel);
         formLayout.setWidth("250px");
 
-        add(headLabel, formLayout);
+        final Button loginButton = new Button("Login", e -> UI.getCurrent().navigate(LoginView.PATH));
+
+        add(headLabel, loginButton, formLayout);
         setSizeFull();
         setHorizontalComponentAlignment(Alignment.CENTER, headLabel);
+        setHorizontalComponentAlignment(Alignment.END, loginButton);
         setHorizontalComponentAlignment(Alignment.CENTER, formLayout);
     }
 }

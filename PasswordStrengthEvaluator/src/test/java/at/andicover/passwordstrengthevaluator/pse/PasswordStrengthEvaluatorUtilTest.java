@@ -1,7 +1,7 @@
-package at.andicover.passwordstrengthevaluator.util;
+package at.andicover.passwordstrengthevaluator.pse;
 
 import at.andicover.passwordstrengthevaluator.model.PasswordLength;
-import at.andicover.passwordstrengthevaluator.model.PweData;
+import at.andicover.passwordstrengthevaluator.model.PseData;
 import org.junit.Test;
 
 import static org.hamcrest.Matchers.equalTo;
@@ -118,17 +118,17 @@ public class PasswordStrengthEvaluatorUtilTest {
 
     @Test
     public void testEvaluatePassword() {
-        PweData pweData = new PweData();
-        pweData.setPassword(WEAK_PASSWORD);
-        assertThat(PasswordStrengthEvaluatorUtil.evaluate(pweData).getScore(), equalTo(0));
+        PseData pseData = new PseData();
+        pseData.setPassword(WEAK_PASSWORD);
+        assertThat(PasswordStrengthEvaluatorUtil.evaluate(pseData).getScore(), equalTo(0));
 
-        pweData.setPassword(BAD_PASSWORD);
-        assertThat(PasswordStrengthEvaluatorUtil.evaluate(pweData).getScore(), equalTo(9));
+        pseData.setPassword(BAD_PASSWORD);
+        assertThat(PasswordStrengthEvaluatorUtil.evaluate(pseData).getScore(), equalTo(9));
 
-        pweData.setPassword(MEDIUM_PASSWORD);
-        assertThat(PasswordStrengthEvaluatorUtil.evaluate(pweData).getScore(), equalTo(48));
+        pseData.setPassword(MEDIUM_PASSWORD);
+        assertThat(PasswordStrengthEvaluatorUtil.evaluate(pseData).getScore(), equalTo(48));
 
-        pweData.setPassword(GOOD_PASSWORD);
-        assertThat(PasswordStrengthEvaluatorUtil.evaluate(pweData).getScore(), equalTo(100));
+        pseData.setPassword(GOOD_PASSWORD);
+        assertThat(PasswordStrengthEvaluatorUtil.evaluate(pseData).getScore(), equalTo(100));
     }
 }

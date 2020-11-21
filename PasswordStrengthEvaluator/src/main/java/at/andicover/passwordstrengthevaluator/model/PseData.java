@@ -2,7 +2,7 @@ package at.andicover.passwordstrengthevaluator.model;
 
 import java.util.Objects;
 
-public final class PweData {
+public final class PseData {
 
     private String password;
     private PasswordLength passwordLength = PasswordLength.SHORT;
@@ -94,16 +94,16 @@ public final class PweData {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        final PweData pweData = (PweData) o;
-        return Double.compare(pweData.entropy, entropy) == 0
-                && uppercaseLetters == pweData.uppercaseLetters
-                && lowercaseLetters == pweData.lowercaseLetters
-                && numbers == pweData.numbers
-                && symbols == pweData.symbols
-                && isOnWeakPasswordList == pweData.isOnWeakPasswordList
-                && score == pweData.score
-                && Objects.equals(password, pweData.password)
-                && passwordLength == pweData.passwordLength;
+        final PseData pseData = (PseData) o;
+        return Double.compare(pseData.entropy, entropy) == 0
+                && uppercaseLetters == pseData.uppercaseLetters
+                && lowercaseLetters == pseData.lowercaseLetters
+                && numbers == pseData.numbers
+                && symbols == pseData.symbols
+                && isOnWeakPasswordList == pseData.isOnWeakPasswordList
+                && score == pseData.score
+                && Objects.equals(password, pseData.password)
+                && passwordLength == pseData.passwordLength;
     }
 
     @Override
