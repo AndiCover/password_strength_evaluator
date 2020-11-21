@@ -27,7 +27,9 @@ public class BaseUiTest {
 
     @AfterClass
     public static void cleanUp() {
-        driver.quit();
+        if (driver != null) {
+            driver.quit();
+        }
         stopApplication();
     }
 

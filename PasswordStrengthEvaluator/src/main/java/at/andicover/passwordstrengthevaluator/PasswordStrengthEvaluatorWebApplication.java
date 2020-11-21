@@ -7,11 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * Main entry point of the application.
  */
 @SpringBootApplication
-public final class PasswordStrengthEvaluatorWebApplication {
-
-    private PasswordStrengthEvaluatorWebApplication() {
-        super();
-    }
+public class PasswordStrengthEvaluatorWebApplication {
 
     public static void main(final String[] args) {
         SpringApplication.run(PasswordStrengthEvaluatorWebApplication.class, args);
