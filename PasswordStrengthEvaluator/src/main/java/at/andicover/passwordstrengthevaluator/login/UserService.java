@@ -25,6 +25,7 @@ public final class UserService {
 
     private static final String STATEMENT_GET_USER = "SELECT id, name, username, password, salt FROM user WHERE username = ?;";
     private static final String STATEMENT_INSERT_USER = "INSERT INTO user (id, name, username, password, salt) VALUES (?, ?, ?, ?, ?)";
+    private static final String STATEMENT_DELETE_USER = "DELETE FROM user WHERE id = ?;";
 
     static {
         CASSANDRA_CONNECTOR = new CassandraConnector();
@@ -83,6 +84,15 @@ public final class UserService {
             ex.printStackTrace();
             return false;
         }
+    }
+
+    public static boolean delete(@NonNull final LoginData loginData) {
+        connectToCassandra();
+        final User userToDelete = getUser(loginData.getUsername());
+
+        final Session session = CASSANDRA_CONNECTOR.getSession();
+        BoundStatement boundStatement = session.prepare(STATEMENT_DELETE_USER).bind(userToDelete.getId());
+        return session.execute(boundStatement).wasApplied();
     }
 
     private static void connectToCassandra() {

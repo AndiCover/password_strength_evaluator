@@ -1,20 +1,32 @@
 package at.andicover.passwordstrengthevaluator.common;
 
 import at.andicover.passwordstrengthevaluator.PasswordStrengthEvaluatorWebApplication;
+import at.andicover.passwordstrengthevaluator.login.UserService;
+import at.andicover.passwordstrengthevaluator.model.LoginData;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.AfterClass;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.lang.NonNull;
 
 /**
  * Base test for the Selenium E2E UI tests. Handles application startup, driver initialization and teardown.
  */
-public class BaseUiTest {
+public abstract class BaseUiTest {
+
+    private static final String BASE_URL = "http://127.0.0.1:8080/";
+    protected static final long DEFAULT_TIMEOUT = 5L;
+    protected static final LoginData TEST_USER = new LoginData("test", "test");
+    protected static final LoginData INVALID_USER = new LoginData("abc", "abc");
 
     protected static WebDriver driver;
+    protected static WebDriverWait wait;
+
     private static ConfigurableApplicationContext context;
 
     protected BaseUiTest() {
@@ -25,7 +37,7 @@ public class BaseUiTest {
     public static void setup() {
         startApplication();
         initWebDriver();
-        navigateToLocalWebApplication();
+        initUser(TEST_USER);
     }
 
     @AfterClass
@@ -33,12 +45,14 @@ public class BaseUiTest {
         if (driver != null) {
             driver.quit();
         }
+        deleteUser(TEST_USER);
         stopApplication();
     }
 
     private static void initWebDriver() {
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
+        wait = new WebDriverWait(driver, DEFAULT_TIMEOUT);
     }
 
     private static void startApplication() {
@@ -49,7 +63,24 @@ public class BaseUiTest {
         SpringApplication.exit(context);
     }
 
-    protected static void navigateToLocalWebApplication() {
-        driver.get("http://127.0.0.1:8080");
+    /**
+     * @return the Base URL of the application.
+     */
+    protected String getBaseUrl() {
+        return BASE_URL;
     }
+
+    private static void initUser(@NonNull final LoginData user) {
+        UserService.register(user);
+    }
+
+    private static void deleteUser(@NonNull final LoginData user) {
+        UserService.delete(user);
+    }
+
+    /**
+     * Navigate to the specified page before each test.
+     */
+    @Before
+    public abstract void navigateToPage();
 }

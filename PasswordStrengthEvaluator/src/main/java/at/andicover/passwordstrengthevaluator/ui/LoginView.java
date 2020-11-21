@@ -31,6 +31,13 @@ public class LoginView extends VerticalLayout {
 
     private final Binder<LoginData> binder;
 
+    protected static final String UI_IDENTIFIER_USERNAME = LoginView.class.getSimpleName() + ".username";
+    protected static final String UI_IDENTIFIER_PASSWORD = LoginView.class.getSimpleName() + ".password";
+    protected static final String UI_IDENTIFIER_LOGIN = LoginView.class.getSimpleName() + ".login";
+    protected static final String UI_IDENTIFIER_BACK = LoginView.class.getSimpleName() + ".back";
+    protected static final String UI_IDENTIFIER_LOGIN_SUCCESSFUL = LoginView.class.getSimpleName() + ".loginSuccessful";
+    protected static final String UI_IDENTIFIER_LOGIN_FAILED = LoginView.class.getSimpleName() + ".loginFailed";
+
     /**
      * Inits UI components.
      */
@@ -39,19 +46,20 @@ public class LoginView extends VerticalLayout {
         this.binder.setBean(new LoginData());
 
         final TextField usernameField = new TextField(TEXT_USERNAME, TEXT_USERNAME.toLowerCase());
-        usernameField.setId("username");
+        usernameField.setId(UI_IDENTIFIER_USERNAME);
         this.binder.forField(usernameField).asRequired("Username must be set").bind(LoginData::getUsername, LoginData::setUsername);
 
         final PasswordField passwordField = new PasswordField(TEXT_PASSWORD, TEXT_PASSWORD.toLowerCase());
-        passwordField.setId("password");
+        passwordField.setId(UI_IDENTIFIER_PASSWORD);
         this.binder.forField(passwordField).asRequired("Password must be set").bind(LoginData::getPassword, LoginData::setPassword);
 
         final Button loginButton = new Button("Login", e -> login());
+        loginButton.setId(UI_IDENTIFIER_LOGIN);
         final FormLayout formLayout = new FormLayout(usernameField, passwordField, loginButton);
         formLayout.setWidth("250px");
 
         final Button backButton = new Button("Back", e -> UI.getCurrent().navigate(MainView.PATH));
-        backButton.setId("back");
+        backButton.setId(UI_IDENTIFIER_BACK);
 
         add(backButton, formLayout);
         setSizeFull();
@@ -66,11 +74,11 @@ public class LoginView extends VerticalLayout {
 
         final User user = UserService.login(binder.getBean());
         if (user != null) {
-            Notification.show(LOGIN_SUCCESSFUL);
+            Notification.show(LOGIN_SUCCESSFUL).setId(UI_IDENTIFIER_LOGIN_SUCCESSFUL);
             VaadinSession.getCurrent().setAttribute(User.SESSION_ATTRIBUTE, user);
             UI.getCurrent().navigate(AdminView.PATH);
         } else {
-            Notification.show(LOGIN_FAILED);
+            Notification.show(LOGIN_FAILED).setId(UI_IDENTIFIER_LOGIN_FAILED);
         }
     }
 

@@ -34,6 +34,12 @@ public class AdminView extends VerticalLayout {
     public static final String PATH = "admin";
     private User user;
 
+    protected static final String UI_IDENTIFIER_HELLO = AdminView.class.getSimpleName() + ".hello";
+    protected static final String UI_IDENTIFIER_LOGOUT = AdminView.class.getSimpleName() + ".logout";
+    protected static final String UI_IDENTIFIER_UPLOAD = AdminView.class.getSimpleName() + ".upload";
+    protected static final String UI_IDENTIFIER_NOT_LOGGED_IN = AdminView.class.getSimpleName() + ".notLoggedIn";
+    protected static final String UI_IDENTIFIER_BACK = AdminView.class.getSimpleName() + ".back";
+
     /**
      * Checks if user is authenticated and initializes UI components.
      */
@@ -47,11 +53,15 @@ public class AdminView extends VerticalLayout {
 
     private void showAdminView() {
         final Label helloLabel = new Label(String.format("Hello %s!", user.getName()));
+        helloLabel.setId(UI_IDENTIFIER_HELLO);
+
         final Button logoutButton = new Button("Logout", e -> logout());
+        logoutButton.setId(UI_IDENTIFIER_LOGOUT);
 
         final MemoryBuffer buffer = new MemoryBuffer();
         final Upload upload = new Upload(buffer);
         final Div output = new Div();
+        upload.setId(UI_IDENTIFIER_UPLOAD);
 
         upload.addSucceededListener(event -> {
             Component component = createComponent(event.getMIMEType(), buffer.getInputStream());
@@ -70,9 +80,12 @@ public class AdminView extends VerticalLayout {
 
     private void showError() {
         final Label errorLabel = new Label("You are not logged in!");
-        final Button loginButton = new Button("Go back", e -> UI.getCurrent().navigate(LoginView.PATH));
-        add(errorLabel, loginButton);
+        errorLabel.setId(UI_IDENTIFIER_NOT_LOGGED_IN);
 
+        final Button loginButton = new Button("Go back", e -> UI.getCurrent().navigate(LoginView.PATH));
+        loginButton.setId(UI_IDENTIFIER_BACK);
+
+        add(errorLabel, loginButton);
         setHorizontalComponentAlignment(Alignment.CENTER, errorLabel, loginButton);
     }
 

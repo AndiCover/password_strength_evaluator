@@ -34,6 +34,16 @@ public class MainView extends VerticalLayout {
     private static final String TEXT_SYMBOLS = "Symbols";
     private static final String TEXT_WEAK_LIST = "Is on weak password list";
 
+    protected static final String UI_IDENTIFIER_PASSWORD = MainView.class.getSimpleName() + ".password";
+    protected static final String UI_IDENTIFIER_SCORE = MainView.class.getSimpleName() + ".score";
+    protected static final String UI_IDENTIFIER_PASSWORD_LENGTH = MainView.class.getSimpleName() + ".passwordLength";
+    protected static final String UI_IDENTIFIER_ENTROPY = MainView.class.getSimpleName() + ".entropy";
+    protected static final String UI_IDENTIFIER_UPPERCASE = MainView.class.getSimpleName() + ".uppercase";
+    protected static final String UI_IDENTIFIER_LOWERCASE = MainView.class.getSimpleName() + ".lowercase";
+    protected static final String UI_IDENTIFIER_NUMBERS = MainView.class.getSimpleName() + ".numbers";
+    protected static final String UI_IDENTIFIER_SYMBOLS = MainView.class.getSimpleName() + ".symbols";
+    protected static final String UI_IDENTIFIER_WEAK_PASSWORD = MainView.class.getSimpleName() + ".weakPassword";
+
     private final Binder<PseData> binder;
 
     public MainView() {
@@ -45,7 +55,7 @@ public class MainView extends VerticalLayout {
         final Label headLabel = new Label(TITLE);
 
         final PasswordField passwordField = new PasswordField(TEXT_PASSWORD, TEXT_PASSWORD.toLowerCase());
-        passwordField.setId("password");
+        passwordField.setId(UI_IDENTIFIER_PASSWORD);
         passwordField.setValueChangeMode(ValueChangeMode.EAGER);
         this.binder.forField(passwordField)
                 .asRequired("Password must be set")
@@ -53,49 +63,49 @@ public class MainView extends VerticalLayout {
 
         final TextField scoreLabel = new TextField(TEXT_SCORE);
         scoreLabel.setReadOnly(true);
-        scoreLabel.setId("score");
+        scoreLabel.setId(UI_IDENTIFIER_SCORE);
         this.binder.forField(scoreLabel)
                 .bind(x -> String.valueOf(x.getScore()), null);
 
         final TextField passwordLengthLabel = new TextField(TEXT_PASSWORD_LENGTH);
         passwordLengthLabel.setReadOnly(true);
-        passwordLengthLabel.setId("passwordLength");
+        passwordLengthLabel.setId(UI_IDENTIFIER_PASSWORD_LENGTH);
         this.binder.forField(passwordLengthLabel)
                 .bind(x -> String.valueOf(x.getPasswordLength().toString()), null);
 
         final TextField entropyLabel = new TextField(TEXT_ENTROPY);
         entropyLabel.setReadOnly(true);
-        entropyLabel.setId("entropy");
+        entropyLabel.setId(UI_IDENTIFIER_ENTROPY);
         this.binder.forField(entropyLabel)
                 .bind(x -> String.valueOf(x.getEntropy()), null);
 
         final TextField uppercaseLettersLabel = new TextField(TEXT_UPPERCASE);
         uppercaseLettersLabel.setReadOnly(true);
-        uppercaseLettersLabel.setId("uppercase");
+        uppercaseLettersLabel.setId(UI_IDENTIFIER_UPPERCASE);
         this.binder.forField(uppercaseLettersLabel)
                 .bind(x -> String.valueOf(x.getUppercaseLetters()), null);
 
         final TextField lowercaseLettersLabel = new TextField(TEXT_LOWERCASE);
         lowercaseLettersLabel.setReadOnly(true);
-        lowercaseLettersLabel.setId("lowercase");
+        lowercaseLettersLabel.setId(UI_IDENTIFIER_LOWERCASE);
         this.binder.forField(lowercaseLettersLabel)
                 .bind(x -> String.valueOf(x.getLowercaseLetters()), null);
 
         final TextField numbersLabel = new TextField(TEXT_NUMBERS);
         numbersLabel.setReadOnly(true);
-        numbersLabel.setId("numbers");
+        numbersLabel.setId(UI_IDENTIFIER_NUMBERS);
         this.binder.forField(numbersLabel)
                 .bind(x -> String.valueOf(x.getNumbers()), null);
 
         final TextField symbolsLabel = new TextField(TEXT_SYMBOLS);
         symbolsLabel.setReadOnly(true);
-        symbolsLabel.setId("symbols");
+        symbolsLabel.setId(UI_IDENTIFIER_SYMBOLS);
         this.binder.forField(symbolsLabel)
                 .bind(x -> String.valueOf(x.getSymbols()), null);
 
         final TextField weakPasswordLabel = new TextField(TEXT_WEAK_LIST);
         weakPasswordLabel.setReadOnly(true);
-        weakPasswordLabel.setId("weakPassword");
+        weakPasswordLabel.setId(UI_IDENTIFIER_WEAK_PASSWORD);
         this.binder.forField(weakPasswordLabel)
                 .bind(x -> String.valueOf(x.isOnWeakPasswordList()), null);
 
