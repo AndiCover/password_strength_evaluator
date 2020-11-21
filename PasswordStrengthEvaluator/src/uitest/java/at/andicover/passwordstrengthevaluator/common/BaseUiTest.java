@@ -9,6 +9,9 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
+/**
+ * Base test for the Selenium E2E UI tests. Handles application startup, driver initialization and teardown.
+ */
 public class BaseUiTest {
 
     protected static WebDriver driver;

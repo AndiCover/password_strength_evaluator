@@ -37,6 +37,7 @@ public class MainView extends VerticalLayout {
     private final Binder<PseData> binder;
 
     public MainView() {
+        //TODO improve UI
         this.binder = new Binder<>(PseData.class);
         this.binder.setBean(new PseData());
         binder.addValueChangeListener(e -> binder.setBean(PasswordStrengthEvaluatorUtil.evaluate(binder.getBean())));

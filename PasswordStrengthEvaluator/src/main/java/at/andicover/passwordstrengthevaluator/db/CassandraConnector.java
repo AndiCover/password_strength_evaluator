@@ -11,7 +11,7 @@ import com.google.common.collect.ImmutableMap;
  */
 public final class CassandraConnector {
 
-    private static final String NODE = System.getProperty("cassandra_node");
+    private static final String NODE = System.getProperty("cassandra_node", "127.0.0.1");
     private static final int PORT = 9042;
     private static final String KEYSPACE = "test";
     private static final int REPLICATION_FACTOR = 3;

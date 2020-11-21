@@ -12,6 +12,10 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * Utility class for evaluating a password provided as {@link PseData}.
+ * Sets the evaluation results on the provided instance of {@link PseData} and returns it.
+ */
 public final class PasswordStrengthEvaluatorUtil {
 
     private static final double LOW_ENTROPY = 2.0;
@@ -21,6 +25,12 @@ public final class PasswordStrengthEvaluatorUtil {
         super();
     }
 
+    /**
+     * Evaluates the provided password.
+     *
+     * @param pseData {@link PseData} containing the password.
+     * @return {@link PseData} containing the password and the password evaluation information.
+     */
     public static PseData evaluate(@NonNull final PseData pseData) {
         pseData.setPasswordLength(evaluatePasswordLength(pseData.getPassword()));
         pseData.setEntropy(calculateEntropy(pseData.getPassword()));
@@ -43,6 +53,12 @@ public final class PasswordStrengthEvaluatorUtil {
         return PasswordLength.SHORT;
     }
 
+    /**
+     * Calculates the Shannon Entropy of the password.
+     *
+     * @param password the provided password.
+     * @return Shannon Entropy.
+     */
     static double calculateEntropy(@NonNull final String password) {
         Map<Character, Double> probabilityTable = new HashMap<>();
         double entropy = 0;

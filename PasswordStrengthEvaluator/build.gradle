@@ -35,6 +35,7 @@ war {
 dependencies {
     implementation 'com.vaadin:vaadin-spring-boot-starter'
     implementation 'com.datastax.cassandra:cassandra-driver-core'
+    implementation 'com.google.code.findbugs:jsr305:3.0.2'
 
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
 

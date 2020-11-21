@@ -50,8 +50,12 @@ public class LoginView extends VerticalLayout {
         final FormLayout formLayout = new FormLayout(usernameField, passwordField, loginButton);
         formLayout.setWidth("250px");
 
-        add(formLayout);
+        final Button backButton = new Button("Back", e -> UI.getCurrent().navigate(MainView.PATH));
+        backButton.setId("back");
+
+        add(backButton, formLayout);
         setSizeFull();
+        setHorizontalComponentAlignment(Alignment.END, backButton);
         setHorizontalComponentAlignment(Alignment.CENTER, formLayout);
     }
 
@@ -64,7 +68,7 @@ public class LoginView extends VerticalLayout {
         if (user != null) {
             Notification.show(LOGIN_SUCCESSFUL);
             VaadinSession.getCurrent().setAttribute(User.SESSION_ATTRIBUTE, user);
-            UI.getCurrent().navigate(MainView.PATH);
+            UI.getCurrent().navigate(AdminView.PATH);
         } else {
             Notification.show(LOGIN_FAILED);
         }

@@ -2,6 +2,9 @@ package at.andicover.passwordstrengthevaluator.model;
 
 import java.util.Objects;
 
+/**
+ * Password Strength Evaluation model. Holds the provided password and the evaluation information.
+ */
 public final class PseData {
 
     private String password;
