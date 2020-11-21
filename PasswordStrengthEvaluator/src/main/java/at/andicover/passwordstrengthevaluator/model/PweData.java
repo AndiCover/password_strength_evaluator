@@ -2,7 +2,7 @@ package at.andicover.passwordstrengthevaluator.model;
 
 import java.util.Objects;
 
-public class PweData {
+public final class PweData {
 
     private String password;
     private PasswordLength passwordLength = PasswordLength.SHORT;
@@ -18,7 +18,7 @@ public class PweData {
         return password;
     }
 
-    public void setPassword(String password) {
+    public void setPassword(final String password) {
         this.password = password;
     }
 
@@ -26,7 +26,7 @@ public class PweData {
         return passwordLength;
     }
 
-    public void setPasswordLength(PasswordLength passwordLength) {
+    public void setPasswordLength(final PasswordLength passwordLength) {
         this.passwordLength = passwordLength;
     }
 
@@ -34,7 +34,7 @@ public class PweData {
         return entropy;
     }
 
-    public void setEntropy(double entropy) {
+    public void setEntropy(final double entropy) {
         this.entropy = entropy;
     }
 
@@ -42,7 +42,7 @@ public class PweData {
         return uppercaseLetters;
     }
 
-    public void setUppercaseLetters(long uppercaseLetters) {
+    public void setUppercaseLetters(final long uppercaseLetters) {
         this.uppercaseLetters = uppercaseLetters;
     }
 
@@ -50,7 +50,7 @@ public class PweData {
         return lowercaseLetters;
     }
 
-    public void setLowercaseLetters(long lowercaseLetters) {
+    public void setLowercaseLetters(final long lowercaseLetters) {
         this.lowercaseLetters = lowercaseLetters;
     }
 
@@ -58,7 +58,7 @@ public class PweData {
         return numbers;
     }
 
-    public void setNumbers(long numbers) {
+    public void setNumbers(final long numbers) {
         this.numbers = numbers;
     }
 
@@ -66,7 +66,7 @@ public class PweData {
         return symbols;
     }
 
-    public void setSymbols(long symbols) {
+    public void setSymbols(final long symbols) {
         this.symbols = symbols;
     }
 
@@ -74,7 +74,7 @@ public class PweData {
         return isOnWeakPasswordList;
     }
 
-    public void setOnWeakPasswordList(boolean onWeakPasswordList) {
+    public void setOnWeakPasswordList(final boolean onWeakPasswordList) {
         isOnWeakPasswordList = onWeakPasswordList;
     }
 
@@ -82,24 +82,28 @@ public class PweData {
         return score;
     }
 
-    public void setScore(int score) {
+    public void setScore(final int score) {
         this.score = score;
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        PweData pweData = (PweData) o;
-        return Double.compare(pweData.entropy, entropy) == 0 &&
-                uppercaseLetters == pweData.uppercaseLetters &&
-                lowercaseLetters == pweData.lowercaseLetters &&
-                numbers == pweData.numbers &&
-                symbols == pweData.symbols &&
-                isOnWeakPasswordList == pweData.isOnWeakPasswordList &&
-                score == pweData.score &&
-                Objects.equals(password, pweData.password) &&
-                passwordLength == pweData.passwordLength;
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        final PweData pweData = (PweData) o;
+        return Double.compare(pweData.entropy, entropy) == 0
+                && uppercaseLetters == pweData.uppercaseLetters
+                && lowercaseLetters == pweData.lowercaseLetters
+                && numbers == pweData.numbers
+                && symbols == pweData.symbols
+                && isOnWeakPasswordList == pweData.isOnWeakPasswordList
+                && score == pweData.score
+                && Objects.equals(password, pweData.password)
+                && passwordLength == pweData.passwordLength;
     }
 
     @Override

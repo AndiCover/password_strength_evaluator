@@ -21,7 +21,7 @@ public final class PasswordStrengthEvaluatorUtil {
         super();
     }
 
-    public static PweData evaluate(@NonNull PweData pweData) {
+    public static PweData evaluate(@NonNull final PweData pweData) {
         pweData.setPasswordLength(evaluatePasswordLength(pweData.getPassword()));
         pweData.setEntropy(calculateEntropy(pweData.getPassword()));
         pweData.setLowercaseLetters(countLowercaseLetters(pweData.getPassword()));
@@ -50,10 +50,11 @@ public final class PasswordStrengthEvaluatorUtil {
         for (Character character : password.chars().mapToObj(ch -> (char) ch).collect(Collectors.toList())) {
             double probability = 1d / password.length();
 
-            if (probabilityTable.containsKey(character))
+            if (probabilityTable.containsKey(character)) {
                 probabilityTable.put(character, probabilityTable.get(character) + probability);
-            else
+            } else {
                 probabilityTable.put(character, probability);
+            }
         }
 
         for (double prob : probabilityTable.values()) {
@@ -94,11 +95,18 @@ public final class PasswordStrengthEvaluatorUtil {
             return score;
         }
 
-        score = switch (pweData.getPasswordLength()) {
-            case LONG -> 100;
-            case MEDIUM -> 60;
-            default -> 20;
-        };
+        switch (pweData.getPasswordLength()) {
+            case LONG:
+                score = 100;
+                break;
+            case MEDIUM:
+                score = 60;
+                break;
+            case SHORT:
+            default:
+                score = 20;
+                break;
+        }
 
         if (pweData.getNumbers() == 0) {
             score *= 0.8;

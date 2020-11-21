@@ -9,7 +9,7 @@ import static org.hamcrest.junit.MatcherAssert.assertThat;
 
 public class PasswordStrengthEvaluatorUtilTest {
 
-    private final static int MAX_PASSWORD_LENGTH = 50;
+    private static final int MAX_PASSWORD_LENGTH = 50;
     private static final String PASSWORD_EMPTY = "";
     private static final String PASSWORD_ONLY_LOWERCASE = "abcdefghijklmnopqrstuvwxyz";
     private static final String PASSWORD_ONLY_LOWERCASE_UMLAUTS = "abcdefghijklmnopqrstuvwxyzäöü";

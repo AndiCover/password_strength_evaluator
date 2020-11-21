@@ -14,6 +14,10 @@ public class BaseUiTest {
     protected static WebDriver driver;
     private static ConfigurableApplicationContext context;
 
+    protected BaseUiTest() {
+        super();
+    }
+
     @BeforeClass
     public static void setup() {
         startApplication();
