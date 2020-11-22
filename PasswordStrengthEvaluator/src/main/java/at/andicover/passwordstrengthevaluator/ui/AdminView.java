@@ -28,6 +28,7 @@ public class AdminView extends VerticalLayout {
     public static final String PATH = "admin";
     private User user;
 
+    private static final String TITLE = "Password Strength Evaluator";
     private static final String TEXT_LOGOUT = "Logout";
     private static final String TEXT_GO_BACK = "Go back";
     private static final String TEXT_NOT_LOGGED_IN = "You are not logged in!";
@@ -51,6 +52,8 @@ public class AdminView extends VerticalLayout {
     }
 
     private void showAdminView() {
+        final Label headLabel = new Label(TITLE);
+
         final Label helloLabel = new Label(String.format("Hello %s!", user.getName()));
         helloLabel.setId(UI_IDENTIFIER_HELLO);
 
@@ -69,8 +72,10 @@ public class AdminView extends VerticalLayout {
         weakPasswordGrid.setWidth("800px");
         weakPasswordGrid.setId(UI_IDENTIFIER_TABLE);
 
-        add(logoutButton, helloLabel, upload, output, weakPasswordGrid);
+        add(headLabel, logoutButton, helloLabel, upload, output, weakPasswordGrid);
 
+        setSizeFull();
+        setHorizontalComponentAlignment(Alignment.CENTER, headLabel);
         setHorizontalComponentAlignment(Alignment.END, logoutButton);
         setHorizontalComponentAlignment(Alignment.CENTER, helloLabel);
         setHorizontalComponentAlignment(Alignment.CENTER, upload);

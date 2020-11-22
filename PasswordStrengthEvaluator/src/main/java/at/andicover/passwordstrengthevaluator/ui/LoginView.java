@@ -6,6 +6,7 @@ import at.andicover.passwordstrengthevaluator.model.User;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.PasswordField;
@@ -24,6 +25,7 @@ public class LoginView extends VerticalLayout {
 
     public static final String PATH = "login";
 
+    private static final String TITLE = "Password Strength Evaluator";
     private static final String LOGIN_SUCCESSFUL = "Login successful";
     private static final String LOGIN_FAILED = "Login failed";
     private static final String TEXT_USERNAME = "Username";
@@ -47,6 +49,8 @@ public class LoginView extends VerticalLayout {
         this.binder = new Binder<>(LoginData.class);
         this.binder.setBean(new LoginData());
 
+        final Label headLabel = new Label(TITLE);
+
         final TextField usernameField = new TextField(TEXT_USERNAME, TEXT_USERNAME.toLowerCase());
         usernameField.setId(UI_IDENTIFIER_USERNAME);
         this.binder.forField(usernameField)
@@ -67,8 +71,9 @@ public class LoginView extends VerticalLayout {
         final Button backButton = new Button(TEXT_BACK, e -> UI.getCurrent().navigate(MainView.PATH));
         backButton.setId(UI_IDENTIFIER_BACK);
 
-        add(backButton, formLayout);
+        add(headLabel, backButton, formLayout);
         setSizeFull();
+        setHorizontalComponentAlignment(Alignment.CENTER, headLabel);
         setHorizontalComponentAlignment(Alignment.END, backButton);
         setHorizontalComponentAlignment(Alignment.CENTER, formLayout);
     }
