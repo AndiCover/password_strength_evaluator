@@ -28,6 +28,8 @@ public class LoginView extends VerticalLayout {
     private static final String LOGIN_FAILED = "Login failed";
     private static final String TEXT_USERNAME = "Username";
     private static final String TEXT_PASSWORD = "Password";
+    private static final String TEXT_LOGIN = "Login";
+    private static final String TEXT_BACK = "Back";
 
     private final Binder<LoginData> binder;
 
@@ -47,20 +49,22 @@ public class LoginView extends VerticalLayout {
 
         final TextField usernameField = new TextField(TEXT_USERNAME, TEXT_USERNAME.toLowerCase());
         usernameField.setId(UI_IDENTIFIER_USERNAME);
-        this.binder.forField(usernameField).asRequired("Username must be set")
+        this.binder.forField(usernameField)
+                .asRequired("Username must be set")
                 .bind(LoginData::getUsername, LoginData::setUsername);
 
         final PasswordField passwordField = new PasswordField(TEXT_PASSWORD, TEXT_PASSWORD.toLowerCase());
         passwordField.setId(UI_IDENTIFIER_PASSWORD);
-        this.binder.forField(passwordField).asRequired("Password must be set")
+        this.binder.forField(passwordField)
+                .asRequired("Password must be set")
                 .bind(LoginData::getPassword, LoginData::setPassword);
 
-        final Button loginButton = new Button("Login", e -> login());
+        final Button loginButton = new Button(TEXT_LOGIN, e -> login());
         loginButton.setId(UI_IDENTIFIER_LOGIN);
         final FormLayout formLayout = new FormLayout(usernameField, passwordField, loginButton);
         formLayout.setWidth("250px");
 
-        final Button backButton = new Button("Back", e -> UI.getCurrent().navigate(MainView.PATH));
+        final Button backButton = new Button(TEXT_BACK, e -> UI.getCurrent().navigate(MainView.PATH));
         backButton.setId(UI_IDENTIFIER_BACK);
 
         add(backButton, formLayout);

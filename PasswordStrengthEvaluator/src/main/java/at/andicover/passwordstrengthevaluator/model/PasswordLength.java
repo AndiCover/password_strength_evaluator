@@ -7,16 +7,18 @@ package at.andicover.passwordstrengthevaluator.model;
  * Passwords with length >= 12 are of type {@link PasswordLength#LONG}.
  */
 public enum PasswordLength {
-    SHORT(Integer.MIN_VALUE, 7),
-    MEDIUM(8, 11),
-    LONG(12, Integer.MAX_VALUE);
+    SHORT(Integer.MIN_VALUE, 7, "Short"),
+    MEDIUM(8, 11, "Medium"),
+    LONG(12, Integer.MAX_VALUE, "Long");
 
     private final int minLength;
     private final int maxLength;
+    private final String name;
 
-    PasswordLength(final int minLength, final int maxLength) {
+    PasswordLength(final int minLength, final int maxLength, final String name) {
         this.minLength = minLength;
         this.maxLength = maxLength;
+        this.name = name;
     }
 
     /**
@@ -31,5 +33,12 @@ public enum PasswordLength {
      */
     public int getMaxLength() {
         return this.maxLength;
+    }
+
+    /**
+     * @return the name of the type.
+     */
+    public String getName() {
+        return name;
     }
 }

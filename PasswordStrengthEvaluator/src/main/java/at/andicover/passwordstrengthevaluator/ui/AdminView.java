@@ -28,6 +28,10 @@ public class AdminView extends VerticalLayout {
     public static final String PATH = "admin";
     private User user;
 
+    private static final String TEXT_LOGOUT = "Logout";
+    private static final String TEXT_GO_BACK = "Go back";
+    private static final String TEXT_NOT_LOGGED_IN = "You are not logged in!";
+
     protected static final String UI_IDENTIFIER_HELLO = AdminView.class.getSimpleName() + ".hello";
     protected static final String UI_IDENTIFIER_LOGOUT = AdminView.class.getSimpleName() + ".logout";
     protected static final String UI_IDENTIFIER_UPLOAD = AdminView.class.getSimpleName() + ".upload";
@@ -50,7 +54,7 @@ public class AdminView extends VerticalLayout {
         final Label helloLabel = new Label(String.format("Hello %s!", user.getName()));
         helloLabel.setId(UI_IDENTIFIER_HELLO);
 
-        final Button logoutButton = new Button("Logout", e -> logout());
+        final Button logoutButton = new Button(TEXT_LOGOUT, e -> logout());
         logoutButton.setId(UI_IDENTIFIER_LOGOUT);
 
         final MemoryBuffer buffer = new MemoryBuffer();
@@ -58,9 +62,7 @@ public class AdminView extends VerticalLayout {
         final Div output = new Div();
         upload.setId(UI_IDENTIFIER_UPLOAD);
 
-        upload.addSucceededListener(event -> {
-            uploadFile(buffer.getInputStream());
-        });
+        upload.addSucceededListener(event -> uploadFile(buffer.getInputStream()));
 
         Grid<WeakPassword> weakPasswordGrid = new Grid<>(WeakPassword.class);
         weakPasswordGrid.setItems(PasswordService.getWeakPasswords());
@@ -76,10 +78,10 @@ public class AdminView extends VerticalLayout {
     }
 
     private void showError() {
-        final Label errorLabel = new Label("You are not logged in!");
+        final Label errorLabel = new Label(TEXT_NOT_LOGGED_IN);
         errorLabel.setId(UI_IDENTIFIER_NOT_LOGGED_IN);
 
-        final Button loginButton = new Button("Go back", e -> UI.getCurrent().navigate(LoginView.PATH));
+        final Button loginButton = new Button(TEXT_GO_BACK, e -> UI.getCurrent().navigate(LoginView.PATH));
         loginButton.setId(UI_IDENTIFIER_BACK);
 
         add(errorLabel, loginButton);

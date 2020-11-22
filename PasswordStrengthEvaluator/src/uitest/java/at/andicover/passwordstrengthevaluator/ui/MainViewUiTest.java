@@ -43,54 +43,57 @@ public class MainViewUiTest extends BaseUiTest {
     @Test
     public void testWeakPassword() {
         sendKeys(By.id(MainView.UI_IDENTIFIER_PASSWORD), WEAK_PASSWORD);
-        assertThat(getValue(By.id(MainView.UI_IDENTIFIER_SCORE)), equalTo("0"));
-        assertThat(getValue(By.id(MainView.UI_IDENTIFIER_PASSWORD_LENGTH)), equalTo(PasswordLength.SHORT.name()));
+        wait.until(ExpectedConditions.attributeContains(By.id(MainView.UI_IDENTIFIER_ENTROPY), "value", "2.3"));
+        assertThat(getProgressBarValue(By.id(MainView.UI_IDENTIFIER_SCORE)), equalTo("0"));
+        assertThat(getValue(By.id(MainView.UI_IDENTIFIER_PASSWORD_LENGTH)), equalTo(PasswordLength.SHORT.getName()));
         assertThat(getValue(By.id(MainView.UI_IDENTIFIER_ENTROPY)), equalTo("2.3"));
         assertThat(getValue(By.id(MainView.UI_IDENTIFIER_UPPERCASE)), equalTo("0"));
         assertThat(getValue(By.id(MainView.UI_IDENTIFIER_LOWERCASE)), equalTo("0"));
         assertThat(getValue(By.id(MainView.UI_IDENTIFIER_NUMBERS)), equalTo("5"));
         assertThat(getValue(By.id(MainView.UI_IDENTIFIER_SYMBOLS)), equalTo("0"));
-        assertThat(getValue(By.id(MainView.UI_IDENTIFIER_WEAK_PASSWORD)), equalTo("true"));
+        assertThat(getCheckboxStatus(By.id(MainView.UI_IDENTIFIER_WEAK_PASSWORD)), equalTo(true));
     }
 
     @Test
     public void testBadPassword() {
         sendKeys(By.id(MainView.UI_IDENTIFIER_PASSWORD), BAD_PASSWORD);
-        assertThat(getValue(By.id(MainView.UI_IDENTIFIER_SCORE)), equalTo("9"));
-        assertThat(getValue(By.id(MainView.UI_IDENTIFIER_PASSWORD_LENGTH)), equalTo(PasswordLength.SHORT.name()));
+        wait.until(ExpectedConditions.attributeContains(By.id(MainView.UI_IDENTIFIER_ENTROPY), "value", "2.3"));
+        assertThat(getProgressBarValue(By.id(MainView.UI_IDENTIFIER_SCORE)), equalTo("0.09"));
+        assertThat(getValue(By.id(MainView.UI_IDENTIFIER_PASSWORD_LENGTH)), equalTo(PasswordLength.SHORT.getName()));
         assertThat(getValue(By.id(MainView.UI_IDENTIFIER_ENTROPY)), equalTo("2.3"));
         assertThat(getValue(By.id(MainView.UI_IDENTIFIER_UPPERCASE)), equalTo("0"));
         assertThat(getValue(By.id(MainView.UI_IDENTIFIER_LOWERCASE)), equalTo("3"));
         assertThat(getValue(By.id(MainView.UI_IDENTIFIER_NUMBERS)), equalTo("2"));
         assertThat(getValue(By.id(MainView.UI_IDENTIFIER_SYMBOLS)), equalTo("0"));
-        assertThat(getValue(By.id(MainView.UI_IDENTIFIER_WEAK_PASSWORD)), equalTo("false"));
+        assertThat(getCheckboxStatus(By.id(MainView.UI_IDENTIFIER_WEAK_PASSWORD)), equalTo(false));
     }
 
     @Test
     public void testMediumPassword() {
         sendKeys(By.id(MainView.UI_IDENTIFIER_PASSWORD), MEDIUM_PASSWORD);
-        assertThat(getValue(By.id(MainView.UI_IDENTIFIER_SCORE)), equalTo("48"));
-        assertThat(getValue(By.id(MainView.UI_IDENTIFIER_PASSWORD_LENGTH)), equalTo(PasswordLength.MEDIUM.name()));
+        wait.until(ExpectedConditions.attributeContains(By.id(MainView.UI_IDENTIFIER_ENTROPY), "value", "3.0"));
+        assertThat(getProgressBarValue(By.id(MainView.UI_IDENTIFIER_SCORE)), equalTo("0.48"));
+        assertThat(getValue(By.id(MainView.UI_IDENTIFIER_PASSWORD_LENGTH)), equalTo(PasswordLength.MEDIUM.getName()));
         assertThat(getValue(By.id(MainView.UI_IDENTIFIER_ENTROPY)), equalTo("3.0"));
         assertThat(getValue(By.id(MainView.UI_IDENTIFIER_UPPERCASE)), equalTo("2"));
         assertThat(getValue(By.id(MainView.UI_IDENTIFIER_LOWERCASE)), equalTo("2"));
         assertThat(getValue(By.id(MainView.UI_IDENTIFIER_NUMBERS)), equalTo("2"));
         assertThat(getValue(By.id(MainView.UI_IDENTIFIER_SYMBOLS)), equalTo("2"));
-        assertThat(getValue(By.id(MainView.UI_IDENTIFIER_WEAK_PASSWORD)), equalTo("false"));
+        assertThat(getCheckboxStatus(By.id(MainView.UI_IDENTIFIER_WEAK_PASSWORD)), equalTo(false));
     }
 
     @Test
     public void testStrongPassword() {
         sendKeys(By.id(MainView.UI_IDENTIFIER_PASSWORD), GOOD_PASSWORD);
-        wait.until(ExpectedConditions.attributeContains(By.id(MainView.UI_IDENTIFIER_SCORE), "value", "100"));
-        assertThat(getValue(By.id(MainView.UI_IDENTIFIER_SCORE)), equalTo("100"));
-        assertThat(getValue(By.id(MainView.UI_IDENTIFIER_PASSWORD_LENGTH)), equalTo(PasswordLength.LONG.name()));
+        wait.until(ExpectedConditions.attributeContains(By.id(MainView.UI_IDENTIFIER_ENTROPY), "value", "4.0"));
+        assertThat(getProgressBarValue(By.id(MainView.UI_IDENTIFIER_SCORE)), equalTo("1"));
+        assertThat(getValue(By.id(MainView.UI_IDENTIFIER_PASSWORD_LENGTH)), equalTo(PasswordLength.LONG.getName()));
         assertThat(getValue(By.id(MainView.UI_IDENTIFIER_ENTROPY)), equalTo("4.0"));
         assertThat(getValue(By.id(MainView.UI_IDENTIFIER_UPPERCASE)), equalTo("5"));
         assertThat(getValue(By.id(MainView.UI_IDENTIFIER_LOWERCASE)), equalTo("8"));
         assertThat(getValue(By.id(MainView.UI_IDENTIFIER_NUMBERS)), equalTo("2"));
         assertThat(getValue(By.id(MainView.UI_IDENTIFIER_SYMBOLS)), equalTo("4"));
-        assertThat(getValue(By.id(MainView.UI_IDENTIFIER_WEAK_PASSWORD)), equalTo("false"));
+        assertThat(getCheckboxStatus(By.id(MainView.UI_IDENTIFIER_WEAK_PASSWORD)), equalTo(false));
     }
 
     @Test

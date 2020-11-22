@@ -84,6 +84,14 @@ public abstract class BaseUiTest {
         return driver.findElement(by).getAttribute("value");
     }
 
+    protected String getProgressBarValue(@NonNull final By by) {
+        return driver.findElement(by).getAttribute("aria-valuenow");
+    }
+
+    protected boolean getCheckboxStatus(@NonNull final By by) {
+        return Boolean.parseBoolean(driver.findElement(by).getAttribute("aria-checked"));
+    }
+
     protected void sendKeys(@NonNull final By by, @NonNull final String text) {
         driver.findElement(by).sendKeys(text);
         wait.until(ExpectedConditions.attributeContains(by, "value", text));

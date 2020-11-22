@@ -20,8 +20,7 @@ public final class PasswordService {
     private static final CassandraConnector CASSANDRA_CONNECTOR;
     private static final String STATEMENT_GET_PASSWORD = "SELECT password FROM weak_passwords WHERE password = ?;";
     private static final String STATEMENT_GET_ALL = "SELECT password FROM weak_passwords;";
-    private static final String STATEMENT_INSERT_WEAK_PASSWORD =
-            "INSERT INTO weak_passwords (password) VALUES (?);";
+    private static final String STATEMENT_INSERT_WEAK_PASSWORD = "INSERT INTO weak_passwords (password) VALUES (?);";
 
     static {
         CASSANDRA_CONNECTOR = new CassandraConnector();
