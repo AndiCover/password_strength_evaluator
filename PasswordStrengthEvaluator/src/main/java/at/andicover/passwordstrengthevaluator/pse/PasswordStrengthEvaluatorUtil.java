@@ -1,6 +1,5 @@
 package at.andicover.passwordstrengthevaluator.pse;
 
-import at.andicover.passwordstrengthevaluator.login.PasswordService;
 import at.andicover.passwordstrengthevaluator.model.PasswordLength;
 import at.andicover.passwordstrengthevaluator.model.PseData;
 import org.springframework.lang.NonNull;
@@ -43,7 +42,8 @@ public final class PasswordStrengthEvaluatorUtil {
 
     static PasswordLength evaluatePasswordLength(@NonNull final String password) {
         for (PasswordLength passwordLength : PasswordLength.values()) {
-            if (password.length() >= passwordLength.getMinLength() && password.length() <= passwordLength.getMaxLength()) {
+            if (password.length() >= passwordLength.getMinLength() &&
+                    password.length() <= passwordLength.getMaxLength()) {
                 return passwordLength;
             }
         }
@@ -90,7 +90,8 @@ public final class PasswordStrengthEvaluatorUtil {
     }
 
     static long countSymbols(@NonNull final String password) {
-        return password.chars().mapToObj(ch -> (char) ch).filter(c -> !Character.isAlphabetic(c) && !Character.isDigit(c)).count();
+        return password.chars().mapToObj(ch -> (char) ch)
+                .filter(c -> !Character.isAlphabetic(c) && !Character.isDigit(c)).count();
     }
 
     static boolean isOnWeakPasswordList(@NonNull final String password) {

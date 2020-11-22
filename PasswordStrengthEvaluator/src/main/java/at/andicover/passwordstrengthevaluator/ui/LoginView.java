@@ -47,11 +47,13 @@ public class LoginView extends VerticalLayout {
 
         final TextField usernameField = new TextField(TEXT_USERNAME, TEXT_USERNAME.toLowerCase());
         usernameField.setId(UI_IDENTIFIER_USERNAME);
-        this.binder.forField(usernameField).asRequired("Username must be set").bind(LoginData::getUsername, LoginData::setUsername);
+        this.binder.forField(usernameField).asRequired("Username must be set")
+                .bind(LoginData::getUsername, LoginData::setUsername);
 
         final PasswordField passwordField = new PasswordField(TEXT_PASSWORD, TEXT_PASSWORD.toLowerCase());
         passwordField.setId(UI_IDENTIFIER_PASSWORD);
-        this.binder.forField(passwordField).asRequired("Password must be set").bind(LoginData::getPassword, LoginData::setPassword);
+        this.binder.forField(passwordField).asRequired("Password must be set")
+                .bind(LoginData::getPassword, LoginData::setPassword);
 
         final Button loginButton = new Button("Login", e -> login());
         loginButton.setId(UI_IDENTIFIER_LOGIN);

@@ -22,7 +22,7 @@ public final class CassandraConnector {
     /**
      * Opens the DB connection and initializes the DB (creating keyspace, tables, ...).
      */
-    public void connect() {
+    private void connect() {
         Cluster.Builder builder = Cluster.builder()
                 .addContactPoint(NODE)
                 .withPort(PORT);
@@ -33,7 +33,19 @@ public final class CassandraConnector {
         initDB();
     }
 
+    /**
+     * Opens the DB connection or returns an existing session.
+     *
+     * @return The DB session.
+     */
     public Session getSession() {
+        if (this.session == null) {
+            synchronized (CassandraConnector.class) {
+                if (this.session == null) {
+                    connect();
+                }
+            }
+        }
         return this.session;
     }
 
@@ -60,14 +72,24 @@ public final class CassandraConnector {
     }
 
     private void createTables() {
-        final String createTableStatement = "CREATE TABLE IF NOT EXISTS user (id uuid, username text, name text, password text, salt text, PRIMARY KEY (id));";
+        dropTables();
+        String createTableStatement =
+                "CREATE TABLE IF NOT EXISTS user (id uuid, username text, name text, password text, salt text, PRIMARY KEY (id));";
         session.execute(createTableStatement);
-        final String createIndexStatement = "CREATE INDEX IF NOT EXISTS user_username ON user (username);";
+        String createIndexStatement = "CREATE INDEX IF NOT EXISTS user_username ON user (username);";
+        session.execute(createIndexStatement);
+
+        createTableStatement = "CREATE TABLE IF NOT EXISTS weak_passwords (id uuid, password text, PRIMARY KEY (id));";
+        session.execute(createTableStatement);
+        createIndexStatement = "CREATE INDEX IF NOT EXISTS weak_passwords_password ON weak_passwords (password);";
         session.execute(createIndexStatement);
     }
 
     private void dropTables() {
-        final String statement = "DROP TABLE user;";
+        String statement = "DROP TABLE user;";
+        session.execute(statement);
+
+        statement = "DROP TABLE weak_passwords";
         session.execute(statement);
     }
 }

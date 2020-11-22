@@ -30,13 +30,15 @@ public final class PasswordUtil {
         return salt;
     }
 
-    public static Map.Entry<String, byte[]> saltPassword(@NonNull final String password, @NonNull final byte[] salt) throws NoSuchAlgorithmException {
+    public static Map.Entry<String, byte[]> saltPassword(@NonNull final String password, @NonNull final byte[] salt)
+            throws NoSuchAlgorithmException {
         MessageDigest md = MessageDigest.getInstance(MessageDigestAlgorithms.SHA3_512);
         md.update(salt);
         return new AbstractMap.SimpleEntry<>(new String(md.digest(password.getBytes(ENCODING)), ENCODING), salt);
     }
 
-    public static Map.Entry<String, byte[]> saltPassword(@NonNull final String password) throws NoSuchAlgorithmException {
+    public static Map.Entry<String, byte[]> saltPassword(@NonNull final String password)
+            throws NoSuchAlgorithmException {
         final byte[] salt = getSalt();
         return saltPassword(password, salt);
     }

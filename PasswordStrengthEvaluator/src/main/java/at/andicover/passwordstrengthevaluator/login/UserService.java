@@ -23,8 +23,10 @@ public final class UserService {
 
     private static final CassandraConnector CASSANDRA_CONNECTOR;
 
-    private static final String STATEMENT_GET_USER = "SELECT id, name, username, password, salt FROM user WHERE username = ?;";
-    private static final String STATEMENT_INSERT_USER = "INSERT INTO user (id, name, username, password, salt) VALUES (?, ?, ?, ?, ?)";
+    private static final String STATEMENT_GET_USER =
+            "SELECT id, name, username, password, salt FROM user WHERE username = ?;";
+    private static final String STATEMENT_INSERT_USER =
+            "INSERT INTO user (id, name, username, password, salt) VALUES (?, ?, ?, ?, ?);";
     private static final String STATEMENT_DELETE_USER = "DELETE FROM user WHERE id = ?;";
 
     static {
@@ -43,14 +45,14 @@ public final class UserService {
      */
     @Nullable
     public static User login(@NonNull final LoginData loginData) {
-        connectToCassandra();
         User user = getUser(loginData.getUsername());
         if (user == null) {
             return null;
         }
 
         try {
-            final Map.Entry<String, byte[]> passwordData = saltPassword(loginData.getPassword(), user.getSalt().getBytes(ENCODING));
+            final Map.Entry<String, byte[]> passwordData =
+                    saltPassword(loginData.getPassword(), user.getSalt().getBytes(ENCODING));
 
             if (passwordData.getKey().equals(user.getPassword())) {
                 return user;
@@ -69,7 +71,6 @@ public final class UserService {
      * @return Login successful.
      */
     public static boolean register(@NonNull final LoginData loginData) {
-        connectToCassandra();
         User user = getUser(loginData.getUsername());
         if (user != null) {
             return false; //User already exists
@@ -78,7 +79,9 @@ public final class UserService {
         final Session session = CASSANDRA_CONNECTOR.getSession();
         try {
             final Map.Entry<String, byte[]> passwordData = saltPassword(loginData.getPassword());
-            BoundStatement boundStatement = session.prepare(STATEMENT_INSERT_USER).bind(UUID.randomUUID(), loginData.getName(), loginData.getUsername(), passwordData.getKey(), new String(passwordData.getValue(), ENCODING));
+            BoundStatement boundStatement = session.prepare(STATEMENT_INSERT_USER)
+                    .bind(UUID.randomUUID(), loginData.getName(), loginData.getUsername(), passwordData.getKey(),
+                            new String(passwordData.getValue(), ENCODING));
             return session.execute(boundStatement).wasApplied();
         } catch (NoSuchAlgorithmException ex) {
             ex.printStackTrace();
@@ -87,18 +90,11 @@ public final class UserService {
     }
 
     public static boolean delete(@NonNull final LoginData loginData) {
-        connectToCassandra();
         final User userToDelete = getUser(loginData.getUsername());
 
         final Session session = CASSANDRA_CONNECTOR.getSession();
         BoundStatement boundStatement = session.prepare(STATEMENT_DELETE_USER).bind(userToDelete.getId());
         return session.execute(boundStatement).wasApplied();
-    }
-
-    private static void connectToCassandra() {
-        if (CASSANDRA_CONNECTOR.getSession() == null) {
-            CASSANDRA_CONNECTOR.connect();
-        }
     }
 
     private static User getUser(@NonNull final String username) {

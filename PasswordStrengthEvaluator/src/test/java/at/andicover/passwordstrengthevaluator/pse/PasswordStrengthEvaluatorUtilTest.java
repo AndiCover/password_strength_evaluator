@@ -1,6 +1,5 @@
 package at.andicover.passwordstrengthevaluator.pse;
 
-import at.andicover.passwordstrengthevaluator.login.PasswordService;
 import at.andicover.passwordstrengthevaluator.model.PasswordLength;
 import at.andicover.passwordstrengthevaluator.model.PseData;
 import org.junit.Test;

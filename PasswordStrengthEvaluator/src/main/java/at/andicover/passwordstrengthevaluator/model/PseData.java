@@ -111,6 +111,7 @@ public final class PseData {
 
     @Override
     public int hashCode() {
-        return Objects.hash(password, passwordLength, entropy, uppercaseLetters, lowercaseLetters, numbers, symbols, isOnWeakPasswordList, score);
+        return Objects.hash(password, passwordLength, entropy, uppercaseLetters, lowercaseLetters, numbers, symbols,
+                isOnWeakPasswordList, score);
     }
 }
