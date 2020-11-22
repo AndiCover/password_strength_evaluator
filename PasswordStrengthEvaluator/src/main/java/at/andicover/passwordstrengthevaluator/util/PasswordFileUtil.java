@@ -1,7 +1,6 @@
 package at.andicover.passwordstrengthevaluator.util;
 
 import at.andicover.passwordstrengthevaluator.pse.PasswordService;
-import org.springframework.lang.NonNull;
 
 import java.io.BufferedReader;
 import java.io.InputStream;

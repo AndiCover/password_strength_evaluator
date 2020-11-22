@@ -1,7 +1,6 @@
 package at.andicover.passwordstrengthevaluator.ui;
 
 import at.andicover.passwordstrengthevaluator.common.BaseUiTest;
-import org.apache.commons.lang3.NotImplementedException;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -21,22 +20,18 @@ public class E2ETest extends BaseUiTest {
     }
 
     @Test
-    public void testFileUpload() {
+    public void testLoginLogout() {
         login();
-        uploadFile();
-        //TODO asserts
-
         logout();
-        throw new NotImplementedException("Test not implemented");
     }
 
     private void login() {
-        driver.findElement(By.id(MainView.UI_IDENTIFIER_LOGIN)).click();
+        click(By.id(MainView.UI_IDENTIFIER_LOGIN));
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id(MainView.UI_IDENTIFIER_LOGIN)));
 
         sendKeys(By.id(LoginView.UI_IDENTIFIER_USERNAME), TEST_USER.getUsername());
         sendKeys(By.id(LoginView.UI_IDENTIFIER_PASSWORD), TEST_USER.getPassword());
-        driver.findElement(By.id(LoginView.UI_IDENTIFIER_LOGIN)).click();
+        click(By.id(LoginView.UI_IDENTIFIER_LOGIN));
         wait.until(ExpectedConditions.presenceOfElementLocated(By.id(LoginView.UI_IDENTIFIER_LOGIN_SUCCESSFUL)));
 
         assertThat(driver.findElement(By.id(AdminView.UI_IDENTIFIER_HELLO)).getText(),
@@ -49,12 +44,8 @@ public class E2ETest extends BaseUiTest {
         assertThat(driver.findElement(By.id(AdminView.UI_IDENTIFIER_UPLOAD)).isDisplayed(), equalTo(true));
         assertThat(driver.findElement(By.id(AdminView.UI_IDENTIFIER_TABLE)).isDisplayed(), equalTo(true));
 
-        driver.findElement(By.id(AdminView.UI_IDENTIFIER_LOGOUT)).click();
+        click(By.id(AdminView.UI_IDENTIFIER_LOGOUT));
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id(AdminView.UI_IDENTIFIER_LOGOUT)));
         assertThat(driver.getCurrentUrl(), equalTo(getBaseUrl() + LoginView.PATH));
-    }
-
-    private void uploadFile() {
-        //TODO
     }
 }

@@ -89,6 +89,11 @@ public abstract class BaseUiTest {
         wait.until(ExpectedConditions.attributeContains(by, "value", text));
     }
 
+    protected void click(@NonNull final By by) {
+        wait.until(ExpectedConditions.elementToBeClickable(by));
+        driver.findElement(by).click();
+    }
+
     /**
      * Navigate to the specified page before each test.
      */

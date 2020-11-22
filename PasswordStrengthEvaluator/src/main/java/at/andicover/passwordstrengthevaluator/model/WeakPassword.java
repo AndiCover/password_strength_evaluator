@@ -26,7 +26,7 @@ public final class WeakPassword {
      * @param row DB result row.
      * @return WeakPassword instance or null.
      */
-    public static WeakPassword parse(Row row) {
+    public static WeakPassword parse(final Row row) {
         if (row == null) {
             return null;
         }
@@ -39,14 +39,14 @@ public final class WeakPassword {
         return null;
     }
 
-    @Override public boolean equals(Object o) {
+    @Override public boolean equals(final Object o) {
         if (this == o) {
             return true;
         }
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        WeakPassword that = (WeakPassword) o;
+        final WeakPassword that = (WeakPassword) o;
         return Objects.equals(password, that.password);
     }
 
@@ -55,8 +55,8 @@ public final class WeakPassword {
     }
 
     @Override public String toString() {
-        return "WeakPassword{" +
-                "password='" + password + '\'' +
-                '}';
+        return "WeakPassword{"
+                + "password='" + password + '\''
+                + '}';
     }
 }

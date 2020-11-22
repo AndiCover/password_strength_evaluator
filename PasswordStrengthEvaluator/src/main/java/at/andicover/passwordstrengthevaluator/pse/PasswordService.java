@@ -2,11 +2,14 @@ package at.andicover.passwordstrengthevaluator.pse;
 
 import at.andicover.passwordstrengthevaluator.db.CassandraConnector;
 import at.andicover.passwordstrengthevaluator.model.WeakPassword;
-import com.datastax.driver.core.*;
+import com.datastax.driver.core.BatchStatement;
+import com.datastax.driver.core.BoundStatement;
+import com.datastax.driver.core.PreparedStatement;
+import com.datastax.driver.core.ResultSet;
+import com.datastax.driver.core.Session;
 import org.springframework.lang.NonNull;
 
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**

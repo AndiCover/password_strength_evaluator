@@ -2,8 +2,6 @@ package at.andicover.passwordstrengthevaluator.ui;
 
 import at.andicover.passwordstrengthevaluator.common.BaseUiTest;
 import at.andicover.passwordstrengthevaluator.model.PasswordLength;
-import com.vaadin.flow.component.html.Main;
-import org.apache.commons.lang3.NotImplementedException;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -84,6 +82,7 @@ public class MainViewUiTest extends BaseUiTest {
     @Test
     public void testStrongPassword() {
         sendKeys(By.id(MainView.UI_IDENTIFIER_PASSWORD), GOOD_PASSWORD);
+        wait.until(ExpectedConditions.attributeContains(By.id(MainView.UI_IDENTIFIER_SCORE), "value", "100"));
         assertThat(getValue(By.id(MainView.UI_IDENTIFIER_SCORE)), equalTo("100"));
         assertThat(getValue(By.id(MainView.UI_IDENTIFIER_PASSWORD_LENGTH)), equalTo(PasswordLength.LONG.name()));
         assertThat(getValue(By.id(MainView.UI_IDENTIFIER_ENTROPY)), equalTo("4.0"));
@@ -96,7 +95,7 @@ public class MainViewUiTest extends BaseUiTest {
 
     @Test
     public void testClickLogin() {
-        driver.findElement(By.id(MainView.UI_IDENTIFIER_LOGIN)).click();
+        click(By.id(MainView.UI_IDENTIFIER_LOGIN));
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id(MainView.UI_IDENTIFIER_LOGIN)));
         assertThat(driver.getCurrentUrl(), equalTo(getBaseUrl() + LoginView.PATH));
     }

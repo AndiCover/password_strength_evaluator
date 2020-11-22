@@ -7,7 +7,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.springframework.lang.NonNull;
 
-
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
@@ -42,7 +41,7 @@ public class LoginViewUiTest extends BaseUiTest {
     private void login(@NonNull final LoginData user) {
         sendKeys(By.id(LoginView.UI_IDENTIFIER_USERNAME), user.getUsername());
         sendKeys(By.id(LoginView.UI_IDENTIFIER_PASSWORD), user.getPassword());
-        driver.findElement(By.id(LoginView.UI_IDENTIFIER_LOGIN)).click();
+        click(By.id(LoginView.UI_IDENTIFIER_LOGIN));
     }
 
     @Test
@@ -54,7 +53,7 @@ public class LoginViewUiTest extends BaseUiTest {
 
     @Test
     public void testBackButton() {
-        driver.findElement(By.id(LoginView.UI_IDENTIFIER_BACK)).click();
+        click(By.id(LoginView.UI_IDENTIFIER_BACK));
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id(LoginView.UI_IDENTIFIER_LOGIN)));
         assertThat(driver.getCurrentUrl(), equalTo(getBaseUrl() + MainView.PATH));
     }

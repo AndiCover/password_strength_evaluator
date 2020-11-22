@@ -4,28 +4,18 @@ import at.andicover.passwordstrengthevaluator.model.User;
 import at.andicover.passwordstrengthevaluator.model.WeakPassword;
 import at.andicover.passwordstrengthevaluator.pse.PasswordService;
 import at.andicover.passwordstrengthevaluator.util.PasswordFileUtil;
-import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.HasComponents;
-import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.UI;
-import com.vaadin.flow.component.HtmlComponent;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.upload.Upload;
 import com.vaadin.flow.component.upload.receivers.MemoryBuffer;
-import com.vaadin.flow.internal.MessageDigestUtil;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
-import org.apache.commons.io.IOUtils;
 
-import java.io.IOException;
 import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 
 import static at.andicover.passwordstrengthevaluator.ui.AdminView.PATH;
 

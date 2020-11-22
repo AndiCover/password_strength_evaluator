@@ -42,8 +42,8 @@ public final class PasswordStrengthEvaluatorUtil {
 
     static PasswordLength evaluatePasswordLength(@NonNull final String password) {
         for (PasswordLength passwordLength : PasswordLength.values()) {
-            if (password.length() >= passwordLength.getMinLength() &&
-                    password.length() <= passwordLength.getMaxLength()) {
+            if (password.length() >= passwordLength.getMinLength()
+                    && password.length() <= passwordLength.getMaxLength()) {
                 return passwordLength;
             }
         }
