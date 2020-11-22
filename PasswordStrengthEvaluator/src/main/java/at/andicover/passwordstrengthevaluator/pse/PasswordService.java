@@ -22,6 +22,9 @@ public final class PasswordService {
     private static final String STATEMENT_GET_ALL = "SELECT password FROM weak_passwords;";
     private static final String STATEMENT_INSERT_WEAK_PASSWORD = "INSERT INTO weak_passwords (password) VALUES (?);";
 
+    private static PreparedStatement preparedStatementInsertWeakPassword;
+    private static PreparedStatement preparedStatementGetPassword;
+
     static {
         CASSANDRA_CONNECTOR = new CassandraConnector();
     }
@@ -34,14 +37,21 @@ public final class PasswordService {
         int fetched = 0;
         final BatchStatement batch = new BatchStatement();
         final Session session = CASSANDRA_CONNECTOR.getSession();
-        final PreparedStatement preparedStatement = session.prepare(STATEMENT_INSERT_WEAK_PASSWORD);
+
+        if (preparedStatementInsertWeakPassword == null) {
+            synchronized (PasswordService.class) {
+                if (preparedStatementInsertWeakPassword == null) {
+                    preparedStatementInsertWeakPassword = session.prepare(STATEMENT_INSERT_WEAK_PASSWORD);
+                }
+            }
+        }
 
         while (fetched < passwords.size()) {
             final List<String> passwordSublist = passwords.subList(fetched, Math.min(65536, passwords.size()));
             fetched += passwordSublist.size();
 
             for (String weakPassword : passwordSublist) {
-                batch.add(preparedStatement.bind(weakPassword));
+                batch.add(preparedStatementInsertWeakPassword.bind(weakPassword));
             }
             if (!session.execute(batch).wasApplied()) {
                 return false;
@@ -52,7 +62,16 @@ public final class PasswordService {
 
     public static boolean isOnWeakPasswordList(@NonNull final String password) {
         final Session session = CASSANDRA_CONNECTOR.getSession();
-        BoundStatement boundStatement = session.prepare(STATEMENT_GET_PASSWORD).bind(password);
+
+        if (preparedStatementGetPassword == null) {
+            synchronized (PasswordService.class) {
+                if (preparedStatementGetPassword == null) {
+                    preparedStatementGetPassword = session.prepare(STATEMENT_GET_PASSWORD);
+                }
+            }
+        }
+
+        BoundStatement boundStatement = preparedStatementGetPassword.bind(password);
         ResultSet resultSet = session.execute(boundStatement);
         return resultSet.one() != null;
     }

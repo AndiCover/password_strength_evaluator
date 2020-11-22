@@ -4,6 +4,7 @@ import at.andicover.passwordstrengthevaluator.db.CassandraConnector;
 import at.andicover.passwordstrengthevaluator.model.LoginData;
 import at.andicover.passwordstrengthevaluator.model.User;
 import com.datastax.driver.core.BoundStatement;
+import com.datastax.driver.core.PreparedStatement;
 import com.datastax.driver.core.ResultSet;
 import com.datastax.driver.core.Session;
 import org.springframework.lang.NonNull;
@@ -28,6 +29,10 @@ public final class UserService {
     private static final String STATEMENT_INSERT_USER =
             "INSERT INTO user (id, name, username, password, salt) VALUES (?, ?, ?, ?, ?);";
     private static final String STATEMENT_DELETE_USER = "DELETE FROM user WHERE id = ?;";
+
+    private static PreparedStatement preparedStatementGetUser;
+    private static PreparedStatement preparedStatementInsertUser;
+    private static PreparedStatement preparedStatementDeleteUser;
 
     static {
         CASSANDRA_CONNECTOR = new CassandraConnector();
@@ -75,11 +80,19 @@ public final class UserService {
         if (user != null) {
             return false; //User already exists
         }
-
         final Session session = CASSANDRA_CONNECTOR.getSession();
+
+        if (preparedStatementInsertUser == null) {
+            synchronized (UserService.class) {
+                if (preparedStatementInsertUser == null) {
+                    preparedStatementInsertUser = session.prepare(STATEMENT_INSERT_USER);
+                }
+            }
+        }
+
         try {
             final Map.Entry<String, byte[]> passwordData = saltPassword(loginData.getPassword());
-            BoundStatement boundStatement = session.prepare(STATEMENT_INSERT_USER)
+            BoundStatement boundStatement = preparedStatementInsertUser
                     .bind(UUID.randomUUID(), loginData.getName(), loginData.getUsername(), passwordData.getKey(),
                             new String(passwordData.getValue(), ENCODING));
             return session.execute(boundStatement).wasApplied();
@@ -91,15 +104,32 @@ public final class UserService {
 
     public static boolean delete(@NonNull final LoginData loginData) {
         final User userToDelete = getUser(loginData.getUsername());
-
         final Session session = CASSANDRA_CONNECTOR.getSession();
-        BoundStatement boundStatement = session.prepare(STATEMENT_DELETE_USER).bind(userToDelete.getId());
+
+        if (preparedStatementDeleteUser == null) {
+            synchronized (UserService.class) {
+                if (preparedStatementDeleteUser == null) {
+                    preparedStatementDeleteUser = session.prepare(STATEMENT_DELETE_USER);
+                }
+            }
+        }
+
+        BoundStatement boundStatement = preparedStatementDeleteUser.bind(userToDelete.getId());
         return session.execute(boundStatement).wasApplied();
     }
 
     private static User getUser(@NonNull final String username) {
         final Session session = CASSANDRA_CONNECTOR.getSession();
-        BoundStatement boundStatement = session.prepare(STATEMENT_GET_USER).bind(username);
+
+        if (preparedStatementGetUser == null) {
+            synchronized (UserService.class) {
+                if (preparedStatementGetUser == null) {
+                    preparedStatementGetUser = session.prepare(STATEMENT_GET_USER);
+                }
+            }
+        }
+
+        BoundStatement boundStatement = preparedStatementGetUser.bind(username);
         ResultSet resultSet = session.execute(boundStatement);
         return User.parse(resultSet.one());
     }
