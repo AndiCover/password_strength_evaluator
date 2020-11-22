@@ -61,6 +61,10 @@ public final class PasswordService {
     }
 
     public static boolean isOnWeakPasswordList(@NonNull final String password) {
+        if (password.length() == 0) {
+            return false;
+        }
+
         final Session session = CASSANDRA_CONNECTOR.getSession();
 
         if (preparedStatementGetPassword == null) {
