@@ -6,7 +6,7 @@ import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.formlayout.FormLayout;
-import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.progressbar.ProgressBar;
 import com.vaadin.flow.component.textfield.PasswordField;
@@ -59,7 +59,7 @@ public class MainView extends VerticalLayout {
             scoreBar.setValue(binder.getBean().getScore() / 100.0);
         });
 
-        final Label headLabel = new Label(TITLE);
+        final H1 headLabel = new H1(TITLE);
 
         final PasswordField passwordField = new PasswordField(TEXT_PASSWORD, TEXT_PASSWORD.toLowerCase());
         passwordField.setId(UI_IDENTIFIER_PASSWORD);

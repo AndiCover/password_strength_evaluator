@@ -8,6 +8,7 @@ import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.upload.Upload;
@@ -52,7 +53,7 @@ public class AdminView extends VerticalLayout {
     }
 
     private void showAdminView() {
-        final Label headLabel = new Label(TITLE);
+        final H1 headLabel = new H1(TITLE);
 
         final Label helloLabel = new Label(String.format("Hello %s!", user.getName()));
         helloLabel.setId(UI_IDENTIFIER_HELLO);

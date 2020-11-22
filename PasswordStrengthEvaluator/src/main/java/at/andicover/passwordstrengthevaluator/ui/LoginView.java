@@ -6,7 +6,7 @@ import at.andicover.passwordstrengthevaluator.model.User;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.formlayout.FormLayout;
-import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.PasswordField;
@@ -49,7 +49,7 @@ public class LoginView extends VerticalLayout {
         this.binder = new Binder<>(LoginData.class);
         this.binder.setBean(new LoginData());
 
-        final Label headLabel = new Label(TITLE);
+        final H1 headLabel = new H1(TITLE);
 
         final TextField usernameField = new TextField(TEXT_USERNAME, TEXT_USERNAME.toLowerCase());
         usernameField.setId(UI_IDENTIFIER_USERNAME);
