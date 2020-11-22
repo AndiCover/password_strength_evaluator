@@ -1,6 +1,9 @@
 package at.andicover.passwordstrengthevaluator.ui;
 
 import at.andicover.passwordstrengthevaluator.model.User;
+import at.andicover.passwordstrengthevaluator.model.WeakPassword;
+import at.andicover.passwordstrengthevaluator.pse.PasswordService;
+import at.andicover.passwordstrengthevaluator.util.PasswordFileUtil;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.HasComponents;
 import com.vaadin.flow.component.Tag;
@@ -8,6 +11,7 @@ import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.HtmlComponent;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.Text;
+import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -39,6 +43,7 @@ public class AdminView extends VerticalLayout {
     protected static final String UI_IDENTIFIER_UPLOAD = AdminView.class.getSimpleName() + ".upload";
     protected static final String UI_IDENTIFIER_NOT_LOGGED_IN = AdminView.class.getSimpleName() + ".notLoggedIn";
     protected static final String UI_IDENTIFIER_BACK = AdminView.class.getSimpleName() + ".back";
+    protected static final String UI_IDENTIFIER_TABLE = AdminView.class.getSimpleName() + ".table";
 
     /**
      * Checks if user is authenticated and initializes UI components.
@@ -64,18 +69,20 @@ public class AdminView extends VerticalLayout {
         upload.setId(UI_IDENTIFIER_UPLOAD);
 
         upload.addSucceededListener(event -> {
-            Component component = createComponent(event.getMIMEType(), buffer.getInputStream());
-            showOutput(event.getFileName(), component, output);
+            uploadFile(buffer.getInputStream());
         });
 
-        //TODO show weak password list info from DB
-        //TODO process file and insert weak passwords into DB
+        Grid<WeakPassword> weakPasswordGrid = new Grid<>(WeakPassword.class);
+        weakPasswordGrid.setItems(PasswordService.getWeakPasswords());
+        weakPasswordGrid.setWidth("800px");
+        weakPasswordGrid.setId(UI_IDENTIFIER_TABLE);
 
-        add(logoutButton, helloLabel, upload, output);
+        add(logoutButton, helloLabel, upload, output, weakPasswordGrid);
 
         setHorizontalComponentAlignment(Alignment.END, logoutButton);
         setHorizontalComponentAlignment(Alignment.CENTER, helloLabel);
         setHorizontalComponentAlignment(Alignment.CENTER, upload);
+        setHorizontalComponentAlignment(Alignment.CENTER, weakPasswordGrid);
     }
 
     private void showError() {
@@ -99,32 +106,7 @@ public class AdminView extends VerticalLayout {
         UI.getCurrent().navigate(LoginView.PATH);
     }
 
-    private void showOutput(final String text, final Component content, final HasComponents outputContainer) {
-        final HtmlComponent p = new HtmlComponent(Tag.P);
-        p.getElement().setText(text);
-        outputContainer.add(p);
-        outputContainer.add(content);
-    }
-
-    private Component createComponent(final String mimeType, final InputStream stream) {
-        if (mimeType.startsWith("text")) {
-            return createTextComponent(stream);
-        }
-        final Div content = new Div();
-        final String text = String.format("Mime type: '%s'\nSHA-256 hash: '%s'",
-                mimeType, Arrays.toString(MessageDigestUtil.sha256(stream.toString())));
-        content.setText(text);
-        return content;
-
-    }
-
-    private Component createTextComponent(final InputStream stream) {
-        String text;
-        try {
-            text = IOUtils.toString(stream, StandardCharsets.UTF_8);
-        } catch (IOException e) {
-            text = "exception reading stream";
-        }
-        return new Text(text);
+    private void uploadFile(final InputStream inputStream) {
+        PasswordFileUtil.uploadWeakPasswords(inputStream);
     }
 }

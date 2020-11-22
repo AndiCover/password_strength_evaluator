@@ -1,6 +1,7 @@
 package at.andicover.passwordstrengthevaluator.pse;
 
 import at.andicover.passwordstrengthevaluator.db.CassandraConnector;
+import at.andicover.passwordstrengthevaluator.model.WeakPassword;
 import com.datastax.driver.core.*;
 import org.springframework.lang.NonNull;
 
@@ -14,10 +15,10 @@ import java.util.stream.Collectors;
 public final class PasswordService {
 
     private static final CassandraConnector CASSANDRA_CONNECTOR;
-    private static final String STATEMENT_GET_PASSWORD = "SELECT id, password FROM weak_passwords WHERE password = ?;";
-    private static final String STATEMENT_GET_ALL = "SELECT id, password FROM weak_passwords;";
+    private static final String STATEMENT_GET_PASSWORD = "SELECT password FROM weak_passwords WHERE password = ?;";
+    private static final String STATEMENT_GET_ALL = "SELECT password FROM weak_passwords;";
     private static final String STATEMENT_INSERT_WEAK_PASSWORD =
-            "INSERT INTO weak_passwords (id, password) VALUES (?, ?);";
+            "INSERT INTO weak_passwords (password) VALUES (?);";
 
     static {
         CASSANDRA_CONNECTOR = new CassandraConnector();
@@ -38,7 +39,7 @@ public final class PasswordService {
             fetched += passwordSublist.size();
 
             for (String weakPassword : passwordSublist) {
-                batch.add(preparedStatement.bind(UUID.randomUUID(), weakPassword));
+                batch.add(preparedStatement.bind(weakPassword));
             }
             if (!session.execute(batch).wasApplied()) {
                 return false;
@@ -54,9 +55,9 @@ public final class PasswordService {
         return resultSet.one() != null;
     }
 
-    public static List<String> getWeakPasswords() {
+    public static List<WeakPassword> getWeakPasswords() {
         final Session session = CASSANDRA_CONNECTOR.getSession();
         ResultSet resultSet = session.execute(STATEMENT_GET_ALL);
-        return resultSet.all().stream().map(x -> x.getString("password")).collect(Collectors.toList());
+        return resultSet.all().stream().map(WeakPassword::parse).collect(Collectors.toList());
     }
 }

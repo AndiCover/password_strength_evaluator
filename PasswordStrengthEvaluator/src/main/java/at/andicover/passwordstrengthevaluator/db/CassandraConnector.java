@@ -1,10 +1,15 @@
 package at.andicover.passwordstrengthevaluator.db;
 
+import at.andicover.passwordstrengthevaluator.login.UserService;
+import at.andicover.passwordstrengthevaluator.model.LoginData;
+import at.andicover.passwordstrengthevaluator.util.PasswordFileUtil;
 import com.datastax.driver.core.Cluster;
 import com.datastax.driver.core.Session;
 import com.datastax.driver.core.schemabuilder.SchemaBuilder;
 import com.datastax.driver.core.schemabuilder.SchemaStatement;
 import com.google.common.collect.ImmutableMap;
+
+import java.io.InputStream;
 
 /**
  * Connection class for Cassandra DB.
@@ -12,6 +17,7 @@ import com.google.common.collect.ImmutableMap;
 public final class CassandraConnector {
 
     private static final String NODE = System.getProperty("cassandra_node", "127.0.0.1");
+    private static final String DEFAULT_WEAK_PASSWORD_FILE = "weak_passwords.txt";
     private static final int PORT = 9042;
     private static final String KEYSPACE = "test";
     private static final int REPLICATION_FACTOR = 3;
@@ -60,6 +66,8 @@ public final class CassandraConnector {
     private void initDB() {
         createKeyspace();
         createTables();
+        insertDefaultUser();
+        insertWeakPasswords();
     }
 
     private void createKeyspace() {
@@ -72,17 +80,14 @@ public final class CassandraConnector {
     }
 
     private void createTables() {
-        dropTables();
         String createTableStatement =
                 "CREATE TABLE IF NOT EXISTS user (id uuid, username text, name text, password text, salt text, PRIMARY KEY (id));";
         session.execute(createTableStatement);
-        String createIndexStatement = "CREATE INDEX IF NOT EXISTS user_username ON user (username);";
+        final String createIndexStatement = "CREATE INDEX IF NOT EXISTS user_username ON user (username);";
         session.execute(createIndexStatement);
 
-        createTableStatement = "CREATE TABLE IF NOT EXISTS weak_passwords (id uuid, password text, PRIMARY KEY (id));";
+        createTableStatement = "CREATE TABLE IF NOT EXISTS weak_passwords (password text, PRIMARY KEY (password));";
         session.execute(createTableStatement);
-        createIndexStatement = "CREATE INDEX IF NOT EXISTS weak_passwords_password ON weak_passwords (password);";
-        session.execute(createIndexStatement);
     }
 
     private void dropTables() {
@@ -91,5 +96,15 @@ public final class CassandraConnector {
 
         statement = "DROP TABLE weak_passwords";
         session.execute(statement);
+    }
+
+    private static void insertWeakPasswords() {
+        final InputStream inputStream = Thread.currentThread().getContextClassLoader()
+                .getResourceAsStream(DEFAULT_WEAK_PASSWORD_FILE);
+        PasswordFileUtil.uploadWeakPasswords(inputStream);
+    }
+
+    private static void insertDefaultUser() {
+        UserService.register(new LoginData("test", "test"));
     }
 }
