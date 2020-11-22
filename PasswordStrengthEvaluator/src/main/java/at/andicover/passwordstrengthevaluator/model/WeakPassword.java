@@ -5,6 +5,9 @@ import org.springframework.lang.NonNull;
 
 import java.util.Objects;
 
+/**
+ * WeakPassword model. Contains same fields as DB table.
+ */
 public final class WeakPassword {
 
     private final String password;
@@ -17,6 +20,12 @@ public final class WeakPassword {
         return password;
     }
 
+    /**
+     * Parse a DB result row to a WeakPassword instance.
+     *
+     * @param row DB result row.
+     * @return WeakPassword instance or null.
+     */
     public static WeakPassword parse(Row row) {
         if (row == null) {
             return null;

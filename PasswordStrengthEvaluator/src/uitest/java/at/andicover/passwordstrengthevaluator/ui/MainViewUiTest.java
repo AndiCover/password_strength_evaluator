@@ -1,6 +1,8 @@
 package at.andicover.passwordstrengthevaluator.ui;
 
 import at.andicover.passwordstrengthevaluator.common.BaseUiTest;
+import at.andicover.passwordstrengthevaluator.model.PasswordLength;
+import com.vaadin.flow.component.html.Main;
 import org.apache.commons.lang3.NotImplementedException;
 import org.junit.Test;
 import org.openqa.selenium.By;
@@ -10,6 +12,11 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
 public class MainViewUiTest extends BaseUiTest {
+
+    private static final String WEAK_PASSWORD = "12345";
+    private static final String BAD_PASSWORD = "kal12";
+    private static final String MEDIUM_PASSWORD = "t4h8HJ(=";
+    private static final String GOOD_PASSWORD = "JIfjds=fk30ßPÜ_j*?A";
 
     @Override
     public void navigateToPage() {
@@ -37,26 +44,54 @@ public class MainViewUiTest extends BaseUiTest {
 
     @Test
     public void testWeakPassword() {
-        // TODO
-        throw new NotImplementedException("Test not implemented");
+        sendKeys(By.id(MainView.UI_IDENTIFIER_PASSWORD), WEAK_PASSWORD);
+        assertThat(getValue(By.id(MainView.UI_IDENTIFIER_SCORE)), equalTo("0"));
+        assertThat(getValue(By.id(MainView.UI_IDENTIFIER_PASSWORD_LENGTH)), equalTo(PasswordLength.SHORT.name()));
+        assertThat(getValue(By.id(MainView.UI_IDENTIFIER_ENTROPY)), equalTo("2.3"));
+        assertThat(getValue(By.id(MainView.UI_IDENTIFIER_UPPERCASE)), equalTo("0"));
+        assertThat(getValue(By.id(MainView.UI_IDENTIFIER_LOWERCASE)), equalTo("0"));
+        assertThat(getValue(By.id(MainView.UI_IDENTIFIER_NUMBERS)), equalTo("5"));
+        assertThat(getValue(By.id(MainView.UI_IDENTIFIER_SYMBOLS)), equalTo("0"));
+        assertThat(getValue(By.id(MainView.UI_IDENTIFIER_WEAK_PASSWORD)), equalTo("true"));
     }
 
     @Test
     public void testBadPassword() {
-        // TODO
-        throw new NotImplementedException("Test not implemented");
+        sendKeys(By.id(MainView.UI_IDENTIFIER_PASSWORD), BAD_PASSWORD);
+        assertThat(getValue(By.id(MainView.UI_IDENTIFIER_SCORE)), equalTo("9"));
+        assertThat(getValue(By.id(MainView.UI_IDENTIFIER_PASSWORD_LENGTH)), equalTo(PasswordLength.SHORT.name()));
+        assertThat(getValue(By.id(MainView.UI_IDENTIFIER_ENTROPY)), equalTo("2.3"));
+        assertThat(getValue(By.id(MainView.UI_IDENTIFIER_UPPERCASE)), equalTo("0"));
+        assertThat(getValue(By.id(MainView.UI_IDENTIFIER_LOWERCASE)), equalTo("3"));
+        assertThat(getValue(By.id(MainView.UI_IDENTIFIER_NUMBERS)), equalTo("2"));
+        assertThat(getValue(By.id(MainView.UI_IDENTIFIER_SYMBOLS)), equalTo("0"));
+        assertThat(getValue(By.id(MainView.UI_IDENTIFIER_WEAK_PASSWORD)), equalTo("false"));
     }
 
     @Test
     public void testMediumPassword() {
-        // TODO
-        throw new NotImplementedException("Test not implemented");
+        sendKeys(By.id(MainView.UI_IDENTIFIER_PASSWORD), MEDIUM_PASSWORD);
+        assertThat(getValue(By.id(MainView.UI_IDENTIFIER_SCORE)), equalTo("48"));
+        assertThat(getValue(By.id(MainView.UI_IDENTIFIER_PASSWORD_LENGTH)), equalTo(PasswordLength.MEDIUM.name()));
+        assertThat(getValue(By.id(MainView.UI_IDENTIFIER_ENTROPY)), equalTo("3.0"));
+        assertThat(getValue(By.id(MainView.UI_IDENTIFIER_UPPERCASE)), equalTo("2"));
+        assertThat(getValue(By.id(MainView.UI_IDENTIFIER_LOWERCASE)), equalTo("2"));
+        assertThat(getValue(By.id(MainView.UI_IDENTIFIER_NUMBERS)), equalTo("2"));
+        assertThat(getValue(By.id(MainView.UI_IDENTIFIER_SYMBOLS)), equalTo("2"));
+        assertThat(getValue(By.id(MainView.UI_IDENTIFIER_WEAK_PASSWORD)), equalTo("false"));
     }
 
     @Test
     public void testStrongPassword() {
-        // TODO
-        throw new NotImplementedException("Test not implemented");
+        sendKeys(By.id(MainView.UI_IDENTIFIER_PASSWORD), GOOD_PASSWORD);
+        assertThat(getValue(By.id(MainView.UI_IDENTIFIER_SCORE)), equalTo("100"));
+        assertThat(getValue(By.id(MainView.UI_IDENTIFIER_PASSWORD_LENGTH)), equalTo(PasswordLength.LONG.name()));
+        assertThat(getValue(By.id(MainView.UI_IDENTIFIER_ENTROPY)), equalTo("4.0"));
+        assertThat(getValue(By.id(MainView.UI_IDENTIFIER_UPPERCASE)), equalTo("5"));
+        assertThat(getValue(By.id(MainView.UI_IDENTIFIER_LOWERCASE)), equalTo("8"));
+        assertThat(getValue(By.id(MainView.UI_IDENTIFIER_NUMBERS)), equalTo("2"));
+        assertThat(getValue(By.id(MainView.UI_IDENTIFIER_SYMBOLS)), equalTo("4"));
+        assertThat(getValue(By.id(MainView.UI_IDENTIFIER_WEAK_PASSWORD)), equalTo("false"));
     }
 
     @Test

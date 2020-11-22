@@ -7,8 +7,10 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -21,7 +23,7 @@ public abstract class BaseUiTest {
 
     private static final String BASE_URL = "http://127.0.0.1:8080/";
     protected static final long DEFAULT_TIMEOUT = 5L;
-    protected static final LoginData TEST_USER = new LoginData("test", "test");
+    protected static final LoginData TEST_USER = new LoginData("test", "test", "Admin");
     protected static final LoginData INVALID_USER = new LoginData("abc", "abc");
 
     protected static WebDriver driver;
@@ -76,6 +78,15 @@ public abstract class BaseUiTest {
 
     private static void deleteUser(@NonNull final LoginData user) {
         UserService.delete(user);
+    }
+
+    protected String getValue(@NonNull final By by) {
+        return driver.findElement(by).getAttribute("value");
+    }
+
+    protected void sendKeys(@NonNull final By by, @NonNull final String text) {
+        driver.findElement(by).sendKeys(text);
+        wait.until(ExpectedConditions.attributeContains(by, "value", text));
     }
 
     /**

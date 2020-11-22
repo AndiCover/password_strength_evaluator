@@ -80,6 +80,7 @@ public final class CassandraConnector {
     }
 
     private void createTables() {
+        dropTables();
         String createTableStatement =
                 "CREATE TABLE IF NOT EXISTS user (id uuid, username text, name text, password text, salt text, PRIMARY KEY (id));";
         session.execute(createTableStatement);
@@ -105,6 +106,6 @@ public final class CassandraConnector {
     }
 
     private static void insertDefaultUser() {
-        UserService.register(new LoginData("test", "test"));
+        UserService.register(new LoginData("test", "test", "Admin"));
     }
 }

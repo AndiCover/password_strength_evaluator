@@ -40,8 +40,8 @@ public class LoginViewUiTest extends BaseUiTest {
     }
 
     private void login(@NonNull final LoginData user) {
-        driver.findElement(By.id(LoginView.UI_IDENTIFIER_USERNAME)).sendKeys(user.getUsername());
-        driver.findElement(By.id(LoginView.UI_IDENTIFIER_PASSWORD)).sendKeys(user.getPassword());
+        sendKeys(By.id(LoginView.UI_IDENTIFIER_USERNAME), user.getUsername());
+        sendKeys(By.id(LoginView.UI_IDENTIFIER_PASSWORD), user.getPassword());
         driver.findElement(By.id(LoginView.UI_IDENTIFIER_LOGIN)).click();
     }
 
