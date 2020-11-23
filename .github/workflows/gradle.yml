@@ -15,7 +15,7 @@ jobs:
     runs-on: windows-latest
     defaults:
       run:
-        working-directory PasswordStrengthEvaluator
+        working-directory: PasswordStrengthEvaluator
 
     steps:
     - uses: actions/checkout@v2
