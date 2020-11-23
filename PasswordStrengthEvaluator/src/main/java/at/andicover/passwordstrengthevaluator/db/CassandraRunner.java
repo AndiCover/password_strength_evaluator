@@ -16,7 +16,7 @@ public class CassandraRunner {
         try {
             final Process process = Runtime.getRuntime()
                     .exec("cmd.exe start /C cassandra\\apache-cassandra-3.11.8\\bin\\cassandra.bat");
-            Thread.sleep(2_000);
+            Thread.sleep(5_000);
         } catch (InterruptedException ex) {
             ex.printStackTrace();
             Thread.currentThread().interrupt();
