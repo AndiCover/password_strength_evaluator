@@ -1,0 +1,28 @@
+# This workflow will build a Java project with Gradle
+# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-gradle
+
+name: Java CI with Gradle
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up JDK 1.8
+      uses: actions/setup-java@v1
+      with:
+        java-version: 14
+    - name: Build with Gradle
+      run: ./PasswordStrengthEvaluator/gradlew.bat build
+    - name: Run checkstyle
+      run: ./PasswordStrengthEvaluator/gradlew.bat checkstyle
+    - name: Run tests
+      run: ./PasswordStrengthEvaluator/gradlew.bat test
