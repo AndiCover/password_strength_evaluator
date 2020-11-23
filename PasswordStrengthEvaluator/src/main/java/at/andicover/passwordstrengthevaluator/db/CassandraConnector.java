@@ -80,7 +80,6 @@ public final class CassandraConnector {
     }
 
     private void createTables() {
-        dropTables();
         String createTableStatement =
                 "CREATE TABLE IF NOT EXISTS user (id uuid, username text, name text, password text, salt text, PRIMARY KEY (id));";
         session.execute(createTableStatement);
@@ -89,6 +88,12 @@ public final class CassandraConnector {
 
         createTableStatement = "CREATE TABLE IF NOT EXISTS weak_passwords (password text, PRIMARY KEY (password));";
         session.execute(createTableStatement);
+
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException ex) {
+            Thread.currentThread().interrupt();
+        }
     }
 
     private void dropTables() {

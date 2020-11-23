@@ -138,3 +138,7 @@ vaadin-platform-test/webpack.generated.js
 vaadin-bom/pom.xml
 vaadin-spring-bom/pom.xml
 /node_modules/
+/cassandra/apache-cassandra-3.11.8/data/
+/cassandra/apache-cassandra-3.11.8/logs/
+/cassandra/apache-cassandra-3.11.8/pid.txt
+/cassandra/apache-cassandra-3.11.8/.toDelete
