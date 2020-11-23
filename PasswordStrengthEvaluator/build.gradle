@@ -78,3 +78,13 @@ task checkstyle {
     dependsOn 'checkstyleMain'
     dependsOn 'checkstyleTest'
 }
+
+task startCassandra(type: Exec) {
+    commandLine "java", "-classpath", sourceSets.main.runtimeClasspath.getAsPath(), "at.andicover.passwordstrengthevaluator.db.CassandraRunner"
+}
+
+task stopCassandra(type: Exec) {
+    commandLine "java", "-classpath", sourceSets.main.runtimeClasspath.getAsPath(), "at.andicover.passwordstrengthevaluator.db.CassandraStopper"
+}
+
+test.dependsOn startCassandra
