@@ -78,6 +78,10 @@ task stopCassandra(type: Exec) {
     commandLine "java", "-classpath", sourceSets.main.runtimeClasspath.getAsPath(), "at.andicover.passwordstrengthevaluator.db.CassandraStopper"
 }
 
+task runApplication(type: Exec) {
+    commandLine "java", "-classpath", sourceSets.main.runtimeClasspath.getAsPath(), "at.andicover.passwordstrengthevaluator.PasswordStrengthEvaluatorWebApplication"
+}
+
 test {
     useJUnit()
     exclude  '**/ui/**'
