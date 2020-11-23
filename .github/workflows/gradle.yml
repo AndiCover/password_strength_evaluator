@@ -23,9 +23,9 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 14
-    - name: Build with Gradle
-      run: ./gradlew.bat build
     - name: Run checkstyle
       run: ./gradlew.bat checkstyle
-    - name: Run tests
-      run: ./gradlew.bat test
+    - name: Build, start DB & run tests with Gradle
+      run: ./gradlew.bat build
+    - name: Stop DB
+      run: ./gradlew.bat stopCassandra
