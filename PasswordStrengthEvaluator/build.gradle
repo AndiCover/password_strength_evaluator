@@ -6,6 +6,7 @@ plugins {
     id 'war'
     id 'com.vaadin' version '0.14.3.7'
     id 'checkstyle'
+    id 'com.github.spotbugs' version '4.6.0'
 }
 
 java {
@@ -33,6 +34,10 @@ vaadin {
     productionMode = true
 }
 
+spotbugs {
+    toolVersion = '4.2.0'
+}
+
 war {
     enabled = true
 }
@@ -50,6 +55,8 @@ dependencies {
     testImplementation 'io.github.bonigarcia:webdrivermanager:4.2.2'
     testImplementation 'org.powermock:powermock-module-junit4:2.0.9'
     testImplementation 'org.powermock:powermock-api-mockito2:2.0.9'
+
+    spotbugsPlugins 'com.h3xstream.findsecbugs:findsecbugs-plugin:1.10.1'
 }
 
 dependencyManagement {
@@ -101,4 +108,11 @@ task uitest(type: Test) {
 task checkstyle {
     dependsOn 'checkstyleMain'
     dependsOn 'checkstyleTest'
+}
+
+spotbugsMain {
+    reports {
+        xml.enabled = false
+        html.enabled = true
+    }
 }
