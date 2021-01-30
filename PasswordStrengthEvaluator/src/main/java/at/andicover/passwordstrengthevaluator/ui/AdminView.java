@@ -15,6 +15,7 @@ import com.vaadin.flow.component.upload.Upload;
 import com.vaadin.flow.component.upload.receivers.MemoryBuffer;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 import java.io.InputStream;
 
@@ -27,6 +28,7 @@ import static at.andicover.passwordstrengthevaluator.ui.AdminView.PATH;
 public class AdminView extends VerticalLayout {
 
     public static final String PATH = "admin";
+    @SuppressFBWarnings
     private User user;
 
     private static final String TITLE = "Password Strength Evaluator";

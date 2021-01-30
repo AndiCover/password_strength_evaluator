@@ -82,11 +82,9 @@ public final class UserService {
         }
         final Session session = CASSANDRA_CONNECTOR.getSession();
 
-        if (preparedStatementInsertUser == null) {
-            synchronized (UserService.class) {
-                if (preparedStatementInsertUser == null) {
-                    preparedStatementInsertUser = session.prepare(STATEMENT_INSERT_USER);
-                }
+        synchronized (UserService.class) {
+            if (preparedStatementInsertUser == null) {
+                preparedStatementInsertUser = session.prepare(STATEMENT_INSERT_USER);
             }
         }
 
@@ -106,11 +104,9 @@ public final class UserService {
         final User userToDelete = getUser(loginData.getUsername());
         final Session session = CASSANDRA_CONNECTOR.getSession();
 
-        if (preparedStatementDeleteUser == null) {
-            synchronized (UserService.class) {
-                if (preparedStatementDeleteUser == null) {
-                    preparedStatementDeleteUser = session.prepare(STATEMENT_DELETE_USER);
-                }
+        synchronized (UserService.class) {
+            if (preparedStatementDeleteUser == null) {
+                preparedStatementDeleteUser = session.prepare(STATEMENT_DELETE_USER);
             }
         }
 
@@ -121,11 +117,9 @@ public final class UserService {
     private static User getUser(@NonNull final String username) {
         final Session session = CASSANDRA_CONNECTOR.getSession();
 
-        if (preparedStatementGetUser == null) {
-            synchronized (UserService.class) {
-                if (preparedStatementGetUser == null) {
-                    preparedStatementGetUser = session.prepare(STATEMENT_GET_USER);
-                }
+        synchronized (UserService.class) {
+            if (preparedStatementGetUser == null) {
+                preparedStatementGetUser = session.prepare(STATEMENT_GET_USER);
             }
         }
 

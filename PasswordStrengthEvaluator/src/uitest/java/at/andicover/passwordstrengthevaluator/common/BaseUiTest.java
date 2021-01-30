@@ -3,6 +3,7 @@ package at.andicover.passwordstrengthevaluator.common;
 import at.andicover.passwordstrengthevaluator.PasswordStrengthEvaluatorWebApplication;
 import at.andicover.passwordstrengthevaluator.login.UserService;
 import at.andicover.passwordstrengthevaluator.model.LoginData;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -26,7 +27,9 @@ public abstract class BaseUiTest {
     protected static final LoginData TEST_USER = new LoginData("test", "test", "Admin");
     protected static final LoginData INVALID_USER = new LoginData("abc", "abc");
 
+    @SuppressFBWarnings
     protected static WebDriver driver;
+    @SuppressFBWarnings
     protected static WebDriverWait wait;
 
     private static ConfigurableApplicationContext context;

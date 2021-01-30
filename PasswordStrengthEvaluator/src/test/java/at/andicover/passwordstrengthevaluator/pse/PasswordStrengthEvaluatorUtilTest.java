@@ -2,6 +2,7 @@ package at.andicover.passwordstrengthevaluator.pse;
 
 import at.andicover.passwordstrengthevaluator.model.PasswordLength;
 import at.andicover.passwordstrengthevaluator.model.PseData;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.core.classloader.annotations.PrepareForTest;
@@ -14,6 +15,7 @@ import static org.mockito.Mockito.when;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({PasswordService.class})
+@SuppressFBWarnings
 public class PasswordStrengthEvaluatorUtilTest {
 
     private static final int MAX_PASSWORD_LENGTH = 50;

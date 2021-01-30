@@ -38,11 +38,9 @@ public final class PasswordService {
         final BatchStatement batch = new BatchStatement();
         final Session session = CASSANDRA_CONNECTOR.getSession();
 
-        if (preparedStatementInsertWeakPassword == null) {
-            synchronized (PasswordService.class) {
-                if (preparedStatementInsertWeakPassword == null) {
-                    preparedStatementInsertWeakPassword = session.prepare(STATEMENT_INSERT_WEAK_PASSWORD);
-                }
+        synchronized (PasswordService.class) {
+            if (preparedStatementInsertWeakPassword == null) {
+                preparedStatementInsertWeakPassword = session.prepare(STATEMENT_INSERT_WEAK_PASSWORD);
             }
         }
 
@@ -67,11 +65,9 @@ public final class PasswordService {
 
         final Session session = CASSANDRA_CONNECTOR.getSession();
 
-        if (preparedStatementGetPassword == null) {
-            synchronized (PasswordService.class) {
-                if (preparedStatementGetPassword == null) {
-                    preparedStatementGetPassword = session.prepare(STATEMENT_GET_PASSWORD);
-                }
+        synchronized (PasswordService.class) {
+            if (preparedStatementGetPassword == null) {
+                preparedStatementGetPassword = session.prepare(STATEMENT_GET_PASSWORD);
             }
         }
 
